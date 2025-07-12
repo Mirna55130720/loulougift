@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>For You 💝</title>
+  <title>For You 💝 – with Puzzle</title>
   <style>
     /* --------------- Global & Existing Styles --------------- */
     html, body {
@@ -10,7 +10,7 @@
       height: 100%;
       overflow-x: hidden;
       font-family: 'Segoe UI', sans-serif;
-      background: #fff0f5;
+      background: #fff0f5; /* keep the original soft pink */
       color: #444;
       text-align: center;
       padding: 60px 20px;
@@ -54,6 +54,106 @@
     #results{ list-style:none; padding:0; }
     #results li{ background:#ffd1dc; padding:1rem; border-radius:.8rem; margin:1rem 0; }
     @keyframes pop{ 0%{opacity:0; transform:scale(.92);} 100%{opacity:1; transform:scale(1);} }
+
+    /* --------------- PUZZLE STYLES --------------- */
+    /* All puzzle rules are namespaced under the #puzzle section to avoid clashes */
+    #puzzle h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3rem;
+      margin-bottom: 25px;
+      color: #c70059;
+      text-shadow: 1px 1px 5px #ffaccb;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+    }
+    #puzzle h1::before { content: "💖"; }
+
+    #puzzle-board {
+      position: relative;
+      width: 315px;
+      height: 315px;
+      border-radius: 25px;
+      border: 4px solid #ffaccb;
+      background: radial-gradient(circle at center, #ffe6f0 0%, #ffd1dc 100%);
+      box-shadow: 0 0 20px #f08ab4aa inset;
+      margin: 0 auto 35px;
+    }
+
+    /* Drop zones for snapping highlight */
+    #puzzle .drop-zone {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      left: 0;
+      top: 0;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    #puzzle .drop-zone.highlight {
+      box-shadow: 0 0 15px 5px #ff80a1aa;
+      background-color: #ffe6f0cc;
+    }
+
+    #pieces-container {
+      position: relative;
+      width: 320px;
+      min-height: 120px;
+      background: #fff0f5;
+      border-radius: 25px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(214, 51, 108, 0.3);
+      margin: 0 auto 25px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .piece {
+      width: 100px;
+      height: 100px;
+      background-image: url('us_puzzle.jpeg'); /* UPDATE with your image */
+      background-size: 300px 300px;
+      border-radius: 10px;
+      cursor: grab;
+      box-shadow: 0 10px 15px rgba(215,0,90,0.3);
+      user-select: none;
+      border: 3px solid #ffaccb;
+      transition: box-shadow 0.2s ease;
+      position: relative;
+    }
+    .piece.dragging {
+      opacity: 0.9;
+      cursor: grabbing;
+      box-shadow: 0 25px 40px rgba(215,0,90,0.8);
+      transform: scale(1.1);
+      transition: none;
+      position: fixed !important;
+      z-index: 1000 !important;
+    }
+    .piece:hover:not(.dragging) { box-shadow: 0 14px 25px rgba(215,0,90,0.5); }
+
+    #message {
+      font-size: 1.7rem;
+      margin-top: 25px;
+      color: #c70059;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px #ffaccb;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+      user-select: none;
+    }
+
+    /* reuse existing button styles */
+
+    @media (max-width: 420px) {
+      #puzzle-board { width: 260px; height: 260px; border-radius: 20px; }
+      #pieces-container { width: 260px; min-height: 110px; border-radius: 20px; padding: 15px; }
+      .piece { width: 80px; height: 80px; background-size: 240px 240px; border-radius: 8px; }
+    }
   </style>
 </head>
 <body>
@@ -89,10 +189,11 @@
   <button onclick="showSection('memories')">📸 Our Memories</button>
   <button onclick="showSection('games')">🎮 Our Games</button>
   <button onclick="showSection('quiz')">❓ Couple Quiz</button>
+  <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
   <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 </div>
 
-<!-- 📸 Memories Section (unchanged) -->
+<!-- 📸 Memories Section -->
 <div id="memories" class="section">
   <h2>You’ve always been with me 💖</h2>
   <div class="gallery">
@@ -109,7 +210,7 @@
   <br /><button onclick="showSection('menu')">← Back</button>
 </div>
 
-<!-- 🎮 Games Section (unchanged) -->
+<!-- 🎮 Games Section -->
 <div id="games" class="section">
   <h2>Our Favorite Games 🎮</h2>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:25px;max-width:900px;margin:0 auto;">
@@ -122,6 +223,7 @@
   </div>
   <br /><button onclick="showSection('menu')">← Back</button>
 </div>
+
 <!-- ❓ Couple Quiz Section -->
 <div id="quiz" class="section">
   <h2>How well do we know each other? 💑</h2>
@@ -137,257 +239,164 @@
   <button onclick="showSection('menu')">← Back</button>
 </div>
 
+<!-- 🧩 Puzzle Section -->
+<div id="puzzle" class="section">
+  <h1>💞 Drag & Drop Our Puzzle 💞</h1>
+  <div id="puzzle-board" aria-label="Puzzle board"></div>
+  <div id="pieces-container" aria-label="Pieces container"></div>
+  <div id="message" role="alert">You complete me ❤️</div>
+  <button onclick="initPuzzle()">Restart</button>
+  <br />
+  <button onclick="showSection('menu')">← Back</button>
+</div>
+
 <script>
   /* ---------- Existing JS (intro, hearts, gallery, navigation) ---------- */
   function typeText(id, text, speed = 30){ let i=0; const el=document.getElementById(id); el.innerHTML=''; (function type(){ if(i<text.length){ el.innerHTML += text.charAt(i); i++; setTimeout(type,speed);} })(); }
   const stepTexts={text1:"You already saw your first gift.", text2:"Now it's time for your second gift...\nA tiramisu 🍰 made with love, just for you.", text3:"And the third one...\nA handcraft gift ✂️", text4:"And finally...\nThis website 💻 not as perfect as an engineer's work,\nbut made with all the love in the world 💗"};
   function nextStep(stepId){ document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active')); document.getElementById(stepId).classList.add('active'); if(stepId.startsWith('step')){ typeText('text'+stepId.slice(-1), stepTexts['text'+stepId.slice(-1)]);} if(stepId!=='step1'){ localStorage.setItem('giftSeen','yes');}}
   function showSection(id){ document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
   document.addEventListener('DOMContentLoaded', () => {
     // Flip‑cards
     document.querySelectorAll('.flip-card').forEach(card=>card.addEventListener('click',()=>card.classList.toggle('flipped')));
-    // Hearts
+    // Hearts animation
     const heartsContainer=document.querySelector('.hearts-background'); const colors=['pink','purple','lightpink','lavender']; const numHearts=30; const svgHeart=`<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path d="M23.6,0c-3.4,0-6.4,2.6-7.6,5.7C14.8,2.6,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,7.9,16,21.2,16,21.2s16-13.3,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>`; for(let i=0;i<numHearts;i++){ const d=document.createElement('div'); d.classList.add('heart', colors[Math.floor(Math.random()*colors.length)]); d.style.left=Math.random()*100+'vw'; const size=15+Math.random()*15; d.style.width=size+'px'; d.style.height=size+'px'; const dur=10+Math.random()*15; d.style.animationDuration=dur+'s'; d.style.animationDelay=(Math.random()*dur)+'s'; d.innerHTML=svgHeart; heartsContainer.appendChild(d);}    
     // Gift already seen?
     if(localStorage.getItem('giftSeen')==='yes'){ showSection('menu'); } else { typeText('text1', stepTexts.text1); }
 
-  // Quiz questions and options
-  const quizQuestions = [
-  {
-    question: "What is his/her favorite color?",
-    answers: ["Red", "Blue", "Green", "Yellow"]
-  },
-  {
-    question: "What is his/her favorite meal or dish?",
-    answers: ["Pizza", "Pasta", "Sushi", "Salad"]
-  },
-  {
-    question: "What is his/her favorite drink?",
-    answers: ["Coffee", "Tea", "Juice", "Water"]
-  },
-  {
-    question: "What is his/her favorite song right now?",
-    answers: ["Shape of You", "Blinding Lights", "Levitating", "Someone You Loved"]
-  },
-  {
-    question: "What is his/her comfort movie or series?",
-    answers: ["Friends", "Harry Potter", "The Office", "Stranger Things"]
-  },
-  {
-    question: "What is his/her dream travel destination?",
-    answers: ["Paris", "Maldives", "Tokyo", "New York"]
-  },
-  {
-    question: "What does he/she order the most at a café?",
-    answers: ["Latte", "Espresso", "Cappuccino", "Hot Chocolate"]
-  },
-  {
-    question: "What is his/her biggest fear?",
-    answers: ["Heights", "Spiders", "Public speaking", "Darkness"]
-  },
-  {
-    question: "What’s his/her favorite childhood memory?",
-    answers: ["Family trips", "Playing outside", "Birthday parties", "Learning to ride a bike"]
-  },
-  {
-    question: "What’s his/her go-to activity when sad or stressed?",
-    answers: ["Listening to music", "Watching movies", "Exercising", "Reading"]
-  },
-  {
-    question: "What’s one item he/she never leaves the house without?",
-    answers: ["Phone", "Wallet", "Keys", "Sunglasses"]
-  },
-  {
-    question: "What is his/her love language? (e.g., physical touch, words of affirmation…)",
-    answers: ["Physical touch", "Words of affirmation", "Acts of service", "Quality time"]
-  },
-  {
-    question: "How does he/she express jealousy?",
-    answers: ["Getting quiet", "Asking questions", "Ignoring", "Showing affection"]
-  },
-  {
-    question: "What was his/her first impression of you?",
-    answers: ["Friendly", "Funny", "Shy", "Confident"]
-  },
-  {
-    question: "Which of your shared memories means the most to him/her?",
-    answers: ["First date", "Trip together", "Celebration", "Random moments"]
-  }
-];
+    /* --------------- Quiz setup --------------- */
+    const quizQuestions = [
+      { question: "What is his/her favorite color?", answers: ["Red","Blue","Green","Yellow"] },
+      { question: "What is his/her favorite meal or dish?", answers: ["Pizza","Pasta","Sushi","Salad"] },
+      { question: "What is his/her favorite drink?", answers: ["Coffee","Tea","Juice","Water"] },
+      { question: "What is his/her favorite song right now?", answers: ["Shape of You","Blinding Lights","Levitating","Someone You Loved"] },
+      { question: "What is his/her comfort movie or series?", answers: ["Friends","Harry Potter","The Office","Stranger Things"] },
+      { question: "What is his/her dream travel destination?", answers: ["Paris","Maldives","Tokyo","New York"] },
+      { question: "What does he/she order the most at a café?", answers: ["Latte","Espresso","Cappuccino","Hot Chocolate"] },
+      { question: "What is his/her biggest fear?", answers: ["Heights","Spiders","Public speaking","Darkness"] },
+      { question: "What’s his/her favorite childhood memory?", answers: ["Family trips","Playing outside","Birthday parties","Learning to ride a bike"] },
+      { question: "What’s his/her go-to activity when sad or stressed?", answers: ["Listening to music","Watching movies","Exercising","Reading"] },
+      { question: "What’s one item he/she never leaves the house without?", answers: ["Phone","Wallet","Keys","Sunglasses"] },
+      { question: "What is his/her love language? (e.g., physical touch, words of affirmation…)", answers: ["Physical touch","Words of affirmation","Acts of service","Quality time"] },
+      { question: "How does he/she express jealousy?", answers: ["Getting quiet","Asking questions","Ignoring","Showing affection"] },
+      { question: "What was his/her first impression of you?", answers: ["Friendly","Funny","Shy","Confident"] },
+      { question: "Which of your shared memories means the most to him/her?", answers: ["First date","Trip together","Celebration","Random moments"] }
+    ];
+    let currentQuestionIndex = 0;
+    const userAnswers = [];
+    const quizForm = document.getElementById("quizForm");
+    const resultsSection = document.getElementById("summary");
+    const resultsList = document.getElementById("results");
 
-
-// Current question index
-let currentQuestionIndex = 0;
-
-// Store user answers
-const userAnswers = [];
-
-// Reference to quiz form and container
-const quizForm = document.getElementById("quizForm");
-const resultsSection = document.getElementById("summary");
-const resultsList = document.getElementById("results");
-
-function showQuestion(index) {
-  quizForm.innerHTML = ""; // Clear previous question
-
-  const questionData = quizQuestions[index];
-
-  // Create fieldset
-  const fieldset = document.createElement("fieldset");
-  fieldset.classList.add("visible");
-
-  // Question legend
-  const legend = document.createElement("legend");
-  legend.textContent = questionData.question;
-  fieldset.appendChild(legend);
-
-  // Create radio inputs for answers
-  questionData.answers.forEach((answer) => {
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = "answer";
-    input.value = answer;
-    input.required = true;
-
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(answer));
-    fieldset.appendChild(label);
-  });
-
-  // Add "Other" option with input
-  const otherLabel = document.createElement("label");
-  const otherInput = document.createElement("input");
-  otherInput.type = "radio";
-  otherInput.name = "answer";
-  otherInput.value = "Other";
-  otherInput.required = true;
-
-  const otherTextInput = document.createElement("input");
-  otherTextInput.type = "text";
-  otherTextInput.name = "otherAnswer";
-  otherTextInput.placeholder = "Your answer here...";
-  otherTextInput.style.display = "none";
-  otherTextInput.style.marginLeft = "10px";
-  otherTextInput.required = false; // validate manually
-
-  otherLabel.appendChild(otherInput);
-  otherLabel.appendChild(document.createTextNode("Other"));
-  otherLabel.appendChild(otherTextInput);
-  fieldset.appendChild(otherLabel);
-
-  // Show/hide text input when "Other" is selected
-  otherInput.addEventListener("change", () => {
-    otherTextInput.style.display = "inline-block";
-    otherTextInput.required = true;
-    otherTextInput.focus();
-  });
-
-  // Hide text input when any other radio is selected
-  fieldset.querySelectorAll('input[type="radio"][name="answer"]').forEach(radio => {
-    if (radio !== otherInput) {
-      radio.addEventListener("change", () => {
-        otherTextInput.style.display = "none";
-        otherTextInput.required = false;
-        otherTextInput.value = "";
+    function showQuestion(index){
+      quizForm.innerHTML=""; // Clear
+      const qData = quizQuestions[index];
+      const fs = document.createElement('fieldset'); fs.classList.add('visible');
+      const legend=document.createElement('legend'); legend.textContent=qData.question; fs.appendChild(legend);
+      qData.answers.forEach(ans=>{
+        const label=document.createElement('label');
+        const input=document.createElement('input'); input.type='radio'; input.name='answer'; input.value=ans; input.required=true;
+        label.appendChild(input); label.appendChild(document.createTextNode(ans)); fs.appendChild(label);
       });
+      // Other option
+      const otherLabel=document.createElement('label');
+      const otherRadio=document.createElement('input'); otherRadio.type='radio'; otherRadio.name='answer'; otherRadio.value='Other'; otherRadio.required=true;
+      const otherText=document.createElement('input'); otherText.type='text'; otherText.name='otherAnswer'; otherText.placeholder='Your answer here...'; otherText.style.display='none';
+      otherLabel.appendChild(otherRadio); otherLabel.appendChild(document.createTextNode('Other')); otherLabel.appendChild(otherText); fs.appendChild(otherLabel);
+      otherRadio.addEventListener('change', ()=>{ otherText.style.display='inline-block'; otherText.required=true; otherText.focus();});
+      fs.querySelectorAll('input[type="radio"][name="answer"]').forEach(r=>{ if(r!==otherRadio){ r.addEventListener('change', ()=>{ otherText.style.display='none'; otherText.required=false; otherText.value='';}); } });
+      const btn=document.createElement('button');
+      if(index===quizQuestions.length-1){ btn.type='submit'; btn.textContent='Submit Answers'; } else {
+        btn.type='button'; btn.textContent='Next'; btn.addEventListener('click', ()=>{
+          const selected=quizForm.querySelector('input[name="answer"]:checked'); if(!selected){ alert('Please select an answer to continue.'); return; }
+          if(selected.value==='Other'){ if(!otherText.value.trim()){ alert('Please enter your answer.'); return;} userAnswers[index]=otherText.value.trim(); }
+          else { userAnswers[index]=selected.value; }
+          currentQuestionIndex++; showQuestion(currentQuestionIndex);
+        });
+      }
+      fs.appendChild(btn); quizForm.appendChild(fs);
     }
-  });
 
-  // Next or Submit button
-  const btn = document.createElement("button");
-  if (index === quizQuestions.length - 1) {
-    btn.type = "submit";
-    btn.textContent = "Submit Answers";
-  } else {
-    btn.type = "button";
-    btn.textContent = "Next";
-    btn.addEventListener("click", () => {
-      const selected = quizForm.querySelector('input[name="answer"]:checked');
-      if (!selected) {
-        alert("Please select an answer to continue.");
-        return;
+    quizForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const selected=quizForm.querySelector('input[name="answer"]:checked');
+      const otherText=quizForm.querySelector('input[name="otherAnswer"]');
+      if(!selected){ alert('Please select an answer before submitting.'); return; }
+      if(selected.value==='Other'){ if(!otherText.value.trim()){ alert('Please enter your answer.'); return;} userAnswers[currentQuestionIndex]=otherText.value.trim(); }
+      else { userAnswers[currentQuestionIndex]=selected.value; }
+      quizForm.style.display='none';
+      displayResults();
+    });
+
+    function displayResults(){
+      resultsList.innerHTML='';
+      quizQuestions.forEach((q,i)=>{ const li=document.createElement('li'); li.textContent=`${q.question} — Your answer: ${userAnswers[i] || 'No answer'}`; resultsList.appendChild(li); });
+      resultsSection.style.display='block';
+    }
+
+    function startQuiz(){ currentQuestionIndex=0; userAnswers.length=0; resultsSection.style.display='none'; quizForm.style.display='block'; showQuestion(currentQuestionIndex);}    
+    document.querySelector("button[onclick=\"showSection('quiz')\"]").addEventListener('click', ()=>{ startQuiz(); });
+
+    /* --------------- Puzzle setup --------------- */
+    document.getElementById('puzzleBtn').addEventListener('click', ()=>{ initPuzzle(); });
+  }); // end DOMContentLoaded
+
+  /* --------------- Puzzle engine --------------- */
+  const gridSize = 3;
+  const pieceSize = 100; // px
+  const gap = 5;
+  const board = document.getElementById('puzzle-board');
+  const container = document.getElementById('pieces-container');
+  const message = document.getElementById('message');
+  let slots = {}; let pieces = []; let draggedPiece = null; let offsetX = 0; let offsetY = 0;
+
+  function initPuzzle(){
+    if(!board) return; // safety if not yet loaded
+    message.style.display='none';
+    board.innerHTML='';
+    container.innerHTML='';
+    slots={}; pieces=[];
+    // Create invisible drop zones
+    for(let y=0;y<gridSize;y++){
+      for(let x=0;x<gridSize;x++){
+        const dz=document.createElement('div'); dz.classList.add('drop-zone'); dz.style.left=(x*(pieceSize+gap))+'px'; dz.style.top=(y*(pieceSize+gap))+'px'; dz.style.width=pieceSize+'px'; dz.style.height=pieceSize+'px'; board.appendChild(dz); slots[`${x},${y}`]=null;
       }
-      if (selected.value === "Other") {
-        if (!otherTextInput.value.trim()) {
-          alert("Please enter your answer.");
-          return;
-        }
-        userAnswers[index] = otherTextInput.value.trim();
-      } else {
-        userAnswers[index] = selected.value;
-      }
-      currentQuestionIndex++;
-      showQuestion(currentQuestionIndex);
+    }
+    const positions=[]; for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ positions.push({x,y}); } }
+    const shuffled=positions.slice().sort(()=>Math.random()-0.5);
+    shuffled.forEach((pos,i)=>{
+      const piece=document.createElement('div'); piece.classList.add('piece'); piece.id='piece-'+i;
+      piece.style.backgroundPosition=`-${pos.x*pieceSize}px -${pos.y*pieceSize}px`;
+      piece.style.backgroundSize=`${gridSize*pieceSize}px ${gridSize*pieceSize}px`;
+      piece.dataset.correctX=pos.x; piece.dataset.correctY=pos.y; piece.dataset.slot='outside';
+      piece.style.position='relative'; container.appendChild(piece); pieces.push(piece);
+      piece.addEventListener('mousedown', startDrag); piece.addEventListener('touchstart', startDrag, {passive:false});
     });
   }
-  fieldset.appendChild(btn);
-  quizForm.appendChild(fieldset);
-}
 
-// Handle form submit
-quizForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const selected = quizForm.querySelector('input[name="answer"]:checked');
-  const otherTextInput = quizForm.querySelector('input[name="otherAnswer"]');
-  if (!selected) {
-    alert("Please select an answer before submitting.");
-    return;
+  function startDrag(e){ e.preventDefault(); draggedPiece=e.target; draggedPiece.classList.add('dragging'); draggedPiece.style.zIndex=1000; const rect=draggedPiece.getBoundingClientRect();
+    if(e.type==='touchstart'){ offsetX=e.touches[0].clientX-rect.left; offsetY=e.touches[0].clientY-rect.top; window.addEventListener('touchmove', dragMove,{passive:false}); window.addEventListener('touchend', endDrag); }
+    else { offsetX=e.clientX-rect.left; offsetY=e.clientY-rect.top; window.addEventListener('mousemove', dragMove); window.addEventListener('mouseup', endDrag); }
   }
-  if (selected.value === "Other") {
-    if (!otherTextInput.value.trim()) {
-      alert("Please enter your answer.");
-      return;
-    }
-    userAnswers[currentQuestionIndex] = otherTextInput.value.trim();
-  } else {
-    userAnswers[currentQuestionIndex] = selected.value;
+  function dragMove(e){ e.preventDefault(); let clientX, clientY; if(e.type==='touchmove'){ clientX=e.touches[0].clientX; clientY=e.touches[0].clientY; } else { clientX=e.clientX; clientY=e.clientY; }
+    draggedPiece.style.position='fixed'; draggedPiece.style.left=(clientX-offsetX)+'px'; draggedPiece.style.top=(clientY-offsetY)+'px'; highlightClosestSlot(clientX,clientY);
   }
-  quizForm.style.display = "none";
-  displayResults();
-});
+  function highlightClosestSlot(clientX, clientY){ const boardRect=board.getBoundingClientRect(); let closest=null; let min=Infinity; for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const sx=boardRect.left+x*(pieceSize+gap)+pieceSize/2; const sy=boardRect.top+y*(pieceSize+gap)+pieceSize/2; const d=Math.hypot(clientX-sx, clientY-sy); if(d<min){ min=d; closest={x,y,d}; } } }
+    document.querySelectorAll('#puzzle .drop-zone').forEach(dz=>dz.classList.remove('highlight'));
+    if(min<80&&closest){ const index=closest.y*gridSize+closest.x; board.children[index].classList.add('highlight'); }
+  }
+  function endDrag(e){ e.preventDefault(); if(!draggedPiece) return; let clientX, clientY; if(e.type==='touchend'){ clientX=e.changedTouches[0].clientX; clientY=e.changedTouches[0].clientY; window.removeEventListener('touchmove', dragMove); window.removeEventListener('touchend', endDrag); } else { clientX=e.clientX; clientY=e.clientY; window.removeEventListener('mousemove', dragMove); window.removeEventListener('mouseup', endDrag); }
+    document.querySelectorAll('#puzzle .drop-zone').forEach(dz=>dz.classList.remove('highlight'));
+    const boardRect=board.getBoundingClientRect(); let closest=null; let min=Infinity; for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const sx=boardRect.left+x*(pieceSize+gap)+pieceSize/2; const sy=boardRect.top+y*(pieceSize+gap)+pieceSize/2; const d=Math.hypot(clientX-sx, clientY-sy); if(d<min){ min=d; closest={x,y,d}; } } }
+    if(closest&&min<100){ const slotKey=`${closest.x},${closest.y}`; if(slots[slotKey] && slots[slotKey]!==draggedPiece.id){ resetPiecePosition(draggedPiece); } else { if(draggedPiece.dataset.slot!=='outside'){ slots[draggedPiece.dataset.slot]=null; } slots[slotKey]=draggedPiece.id; draggedPiece.dataset.slot=slotKey; draggedPiece.style.position='absolute'; draggedPiece.style.left=(closest.x*(pieceSize+gap))+'px'; draggedPiece.style.top=(closest.y*(pieceSize+gap))+'px'; draggedPiece.style.zIndex=0; board.appendChild(draggedPiece); } }
+    else { if(draggedPiece.dataset.slot!=='outside'){ slots[draggedPiece.dataset.slot]=null; draggedPiece.dataset.slot='outside'; } container.appendChild(draggedPiece); draggedPiece.style.position='relative'; draggedPiece.style.left='auto'; draggedPiece.style.top='auto'; draggedPiece.style.zIndex=0; }
+    draggedPiece.classList.remove('dragging'); draggedPiece=null; checkCompletion();
+  }
+  function resetPiecePosition(piece){ if(piece.dataset.slot==='outside'){ piece.style.position='relative'; piece.style.left='auto'; piece.style.top='auto'; piece.style.zIndex=0; container.appendChild(piece);} else { const [x,y]=piece.dataset.slot.split(',').map(Number); piece.style.position='absolute'; piece.style.left=(x*(pieceSize+gap))+'px'; piece.style.top=(y*(pieceSize+gap))+'px'; piece.style.zIndex=0; board.appendChild(piece);} }
+  function checkCompletion(){ for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const key=`${x},${y}`; const id=slots[key]; if(!id) return false; const piece=document.getElementById(id); if(!piece) return false; if(+piece.dataset.correctX!==x||+piece.dataset.correctY!==y) return false; } } message.style.display='block'; return true; }
+  window.addEventListener('resize', ()=>{ pieces.forEach(p=> resetPiecePosition(p)); });
 
-
-// Display user answers
-function displayResults() {
-  resultsList.innerHTML = "";
-  quizQuestions.forEach((q, i) => {
-    const li = document.createElement("li");
-    li.textContent = `${q.question} — Your answer: ${userAnswers[i] || "No answer"}`;
-    resultsList.appendChild(li);
-  });
-  resultsSection.style.display = "block";
-}
-
-// Initialize quiz on page load or when quiz section is shown
-function startQuiz() {
-  currentQuestionIndex = 0;
-  userAnswers.length = 0;
-  resultsSection.style.display = "none";
-  quizForm.style.display = "block";
-  showQuestion(currentQuestionIndex);
-}
-
-// Add event listener to quiz menu button to start quiz fresh
-document.querySelector("button[onclick=\"showSection('quiz')\"]").addEventListener("click", () => {
-  startQuiz();
-});
-
-    function showNext(idx){ if(idx < quizQuestions.length-1){ const nextFs=quizForm.querySelectorAll('fieldset')[idx+1]; nextFs.classList.add('visible'); } }
-
-    quizForm.addEventListener('submit',e=>{
-      e.preventDefault(); const results=[];
-      quizQuestions.forEach((q,idx)=>{
-        const radios=[...quizForm.querySelectorAll(`input[name='q${idx}']`)]; let ans=''; radios.forEach(r=>{ if(r.checked) ans=r.value; });
-        if(!ans){ const ci=quizForm.querySelector(`input[name='q${idx}_custom']`); ans=ci.value.trim()||'(no answer)'; }
-        results.push({question:q.text, answer:ans});
-      });
-      const list=document.getElementById('results'); list.innerHTML='';
-      results.forEach((r,i)=>{ const li=document.createElement('li'); li.innerHTML=`<strong>${i+1}. ${r.question}</strong><br>${r.answer}`; list.appendChild(li); });
-      document.getElementById('summary').style.display='block'; document.getElementById('summary').scrollIntoView({behavior:'smooth'});
-    });
-  });
 </script>
-
 </body>
 </html>
