@@ -192,6 +192,7 @@
   <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
   <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 </div>
+ <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
 
 <!-- 📸 Memories Section -->
 <div id="memories" class="section">
@@ -251,6 +252,31 @@
 </div>
 
 <script>
+// Reasons why I love you 💘
+const loveReasons = [
+  "You always listen, even when I don’t make sense.",
+  "Your hugs feel like home.",
+  "You make me laugh even when I don’t feel like smiling.",
+  "You believe in me more than I believe in myself.",
+  "You make the small things feel magical.",
+  "You see the best in me.",
+  "You’re patient with my chaos.",
+  "Your eyes are my favorite place to get lost.",
+  "You make even silence feel beautiful.",
+  "You make love feel effortless.",
+  "You always make time for me, no matter how busy you are.",
+  "Your kisses fix everything.",
+  "You remember the little things that matter most.",
+  "You give me reasons to look forward to tomorrow.",
+  "You're my calm in every storm."
+];
+
+function showLoveReason() {
+  const display = document.getElementById('reasonDisplay');
+  const reason = loveReasons[Math.floor(Math.random() * loveReasons.length)];
+  display.textContent = reason;
+}
+
   /* ---------- Existing JS (intro, hearts, gallery, navigation) ---------- */
   function typeText(id, text, speed = 30){ let i=0; const el=document.getElementById(id); el.innerHTML=''; (function type(){ if(i<text.length){ el.innerHTML += text.charAt(i); i++; setTimeout(type,speed);} })(); }
   const stepTexts={text1:"You already saw your first gift.", text2:"Now it's time for your second gift...\nA tiramisu 🍰 made with love, just for you.", text3:"And the third one...\nA handcraft gift ✂️", text4:"And finally...\nThis website 💻 not as perfect as an engineer's work,\nbut made with all the love in the world 💗"};
@@ -398,5 +424,18 @@
   window.addEventListener('resize', ()=>{ pieces.forEach(p=> resetPiecePosition(p)); });
 
 </script>
+<!-- 💘 Love Reasons Section -->
+<div id="loveReasons" class="section">
+  <h2>Why I Love You 💖</h2>
+  <div class="love-generator">
+    <div id="reasonDisplay" class="reason-box" style="font-size:20px;color:#e26ba9;font-weight:bold;margin:25px auto;max-width:500px;min-height:60px;">
+      Click the button to see a reason...
+    </div>
+    <button onclick="showLoveReason()">Tell Me 💘</button>
+  </div>
+  <br />
+  <button onclick="showSection('menu')">← Back</button>
+</div>
+
 </body>
 </html>
