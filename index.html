@@ -190,9 +190,14 @@
   <button onclick="showSection('games')">🎮 Our Games</button>
   <button onclick="showSection('quiz')">❓ Couple Quiz</button>
   <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
+<div style="margin-top:10px;">
+  <button onclick="startSnake()">🐍 Snake Game</button>
+</div>
   <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
+
 </div>
  <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
+ 
 
 <!-- 📸 Memories Section -->
 <div id="memories" class="section">
@@ -203,7 +208,7 @@
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo2.jpeg" alt="First Kiss in Bizerte" /></div><div class="flip-card-back"><p>Our first kiss in Bizerte</p></div></div></div>
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo3.jpeg" alt="Said I love you" /></div><div class="flip-card-back"><p>When we both said "I love you"</p></div></div></div>
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo4.jpeg" alt="First Sleepover" /></div><div class="flip-card-back"><p>Our first sleepover</p></div></div></div>
-    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo5.jpeg" alt="First Intimate Moment" /></div><div class="flip-card-back"><p>Our second sleepover</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo5.jpeg" alt="First Intimate Moment" /></div><div class="flip-card-back"><p>Our first intimate moment</p></div></div></div>
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo6.jpeg" alt="My Birthday" /></div><div class="flip-card-back"><p>My birthday</p></div></div></div>
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo7.jpeg" alt="My Graduation" /></div><div class="flip-card-back"><p>My graduation day</p></div></div></div>
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo8.jpeg" alt="His Graduation" /></div><div class="flip-card-back"><p>Your graduation day</p></div></div></div>
@@ -249,6 +254,13 @@
   <button onclick="initPuzzle()">Restart</button>
   <br />
   <button onclick="showSection('menu')">← Back</button>
+</div>
+<!-- 🐍 Snake Game Section -->
+<div id="snakeGame" class="section">
+  <h2 style="color:#e26ba9;">Pastel Snake Game 🐍</h2>
+  <canvas id="snakeCanvas" width="300" height="300" style="background:#ffe6f0;border-radius:20px;"></canvas>
+  <p id="snakeScore" style="font-weight:bold;color:#c70059;margin-top:10px;">Score: 0</p>
+  <button onclick="stopSnake()">← Back</button>
 </div>
 
 <script>
@@ -422,6 +434,66 @@ function showLoveReason() {
   function resetPiecePosition(piece){ if(piece.dataset.slot==='outside'){ piece.style.position='relative'; piece.style.left='auto'; piece.style.top='auto'; piece.style.zIndex=0; container.appendChild(piece);} else { const [x,y]=piece.dataset.slot.split(',').map(Number); piece.style.position='absolute'; piece.style.left=(x*(pieceSize+gap))+'px'; piece.style.top=(y*(pieceSize+gap))+'px'; piece.style.zIndex=0; board.appendChild(piece);} }
   function checkCompletion(){ for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const key=`${x},${y}`; const id=slots[key]; if(!id) return false; const piece=document.getElementById(id); if(!piece) return false; if(+piece.dataset.correctX!==x||+piece.dataset.correctY!==y) return false; } } message.style.display='block'; return true; }
   window.addEventListener('resize', ()=>{ pieces.forEach(p=> resetPiecePosition(p)); });
+// SNAKE GAME 💕
+let snakeCanvas, ctx, snake, food, dx, dy, snakeInterval, score;
+
+function startSnake() {
+  showSection('snakeGame');
+  snakeCanvas = document.getElementById('snakeCanvas');
+  ctx = snakeCanvas.getContext('2d');
+  document.addEventListener("keydown", changeDirection);
+  resetSnake();
+  snakeInterval = setInterval(updateSnake, 150);
+}
+
+function stopSnake() {
+  clearInterval(snakeInterval);
+  document.removeEventListener("keydown", changeDirection);
+  showSection('menu');
+}
+
+function resetSnake() {
+  score = 0;
+  document.getElementById("snakeScore").textContent = "Score: 0";
+  snake = [{x: 150, y: 150}];
+  dx = 15; dy = 0;
+  placeFood();
+}
+
+function updateSnake() {
+  const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+  if (head.x < 0 || head.y < 0 || head.x >= 300 || head.y >= 300 || snake.some(p => p.x === head.x && p.y === head.y)) {
+    stopSnake(); return alert("Oops! Game over 💔");
+  }
+  snake.unshift(head);
+  if (head.x === food.x && head.y === food.y) {
+    score++; document.getElementById("snakeScore").textContent = "Score: " + score;
+    placeFood();
+  } else { snake.pop(); }
+  drawSnake();
+}
+
+function drawSnake() {
+  ctx.fillStyle = "#ffe6f0";
+  ctx.fillRect(0, 0, 300, 300);
+  ctx.fillStyle = "#ff80a1";
+  snake.forEach(p => ctx.fillRect(p.x, p.y, 13, 13));
+  ctx.fillStyle = "#cdb4db";
+  ctx.fillRect(food.x, food.y, 13, 13);
+}
+
+function changeDirection(e) {
+  if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -15; }
+  else if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 15; }
+  else if (e.key === "ArrowLeft" && dx === 0) { dx = -15; dy = 0; }
+  else if (e.key === "ArrowRight" && dx === 0) { dx = 15; dy = 0; }
+}
+
+function placeFood() {
+  const x = Math.floor(Math.random() * 20) * 15;
+  const y = Math.floor(Math.random() * 20) * 15;
+  food = {x, y};
+}
 
 </script>
 <!-- 💘 Love Reasons Section -->
