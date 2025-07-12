@@ -154,7 +154,15 @@
       #pieces-container { width: 260px; min-height: 110px; border-radius: 20px; padding: 15px; }
       .piece { width: 80px; height: 80px; background-size: 240px 240px; border-radius: 8px; }
     }
-  </style>
+.cactus {
+  position: absolute;
+  bottom: 30px;
+  width: 25px;
+  height: 50px;
+  background-color: #a2d2a2;
+  border-radius: 10px;
+}
+</style>
 </head>
 <body>
 
@@ -192,6 +200,8 @@
   <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
 <div style="margin-top:10px;">
   <button onclick="startSnake()">🐍 Snake Game</button>
+  <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
+  
 </div>
   <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 
@@ -262,7 +272,28 @@
   <p id="snakeScore" style="font-weight:bold;color:#c70059;margin-top:10px;">Score: 0</p>
   <button onclick="stopSnake()">← Back</button>
 </div>
-
+<!-- 🐹 Hamster Runner Game Section -->
+<div id="hamsterGame" class="section">
+  <h2 style="color:#e26ba9;">Pastel Hamster Runner 🐹</h2>
+  <div id="game" tabindex="0" style="width:400px;height:200px;margin:0 auto;position:relative;overflow:hidden;background:#ffe6f0;border-radius:15px;border:3px solid #f9c0d8;">
+    <div id="instructions" style="position:absolute;top:10px;width:100%;text-align:center;color:#e26ba9;font-size:14px;font-weight:bold;">Press SPACE to Jump!</div>
+    <div id="hamster" style="position:absolute;bottom:30px;left:50px;width:60px;height:40px;">
+      <div class="head" style="position:absolute;width:30px;height:25px;background-color:#f9c0d8;border-radius:50% 50% 40% 40%;top:-15px;left:15px;">
+        <div class="ear-left" style="position:absolute;width:12px;height:15px;background-color:#f9c0d8;border-radius:50%;top:-10px;left:15px;transform:rotate(-30deg);"></div>
+        <div class="ear-right" style="position:absolute;width:12px;height:15px;background-color:#f9c0d8;border-radius:50%;top:-10px;left:30px;transform:rotate(30deg);"></div>
+        <div class="eye-left" style="position:absolute;width:5px;height:5px;background-color:#333;border-radius:50%;top:5px;left:20px;"></div>
+        <div class="eye-right" style="position:absolute;width:5px;height:5px;background-color:#333;border-radius:50%;top:5px;left:30px;"></div>
+        <div class="nose" style="position:absolute;width:4px;height:3px;background-color:#ff9ebb;border-radius:50%;top:10px;left:25px;"></div>
+      </div>
+      <div class="body" style="position:absolute;width:50px;height:30px;background-color:#f9c0d8;border-radius:20px;top:10px;left:5px;"></div>
+      <div class="leg-left" style="position:absolute;width:10px;height:15px;background-color:#f9c0d8;border-radius:5px;bottom:-10px;left:15px;"></div>
+      <div class="leg-right" style="position:absolute;width:10px;height:15px;background-color:#f9c0d8;border-radius:5px;bottom:-10px;left:35px;"></div>
+    </div>
+    <div id="ground" style="position:absolute;bottom:0;width:100%;height:30px;background-color:#d4a373;"></div>
+    <div id="score" style="position:absolute;top:10px;right:20px;color:#e26ba9;font-weight:bold;font-size:18px;">0</div>
+  </div>
+  <button onclick="stopHamsterGame()">← Back</button>
+</div>
 <script>
 // Reasons why I love you 💘
 const loveReasons = [
@@ -494,7 +525,169 @@ function placeFood() {
   const y = Math.floor(Math.random() * 20) * 15;
   food = {x, y};
 }
+// Global variables for hamster game
+let hamsterGameInterval;
+let cactusInterval;
+let animationFrame;
+let gameActive = false;
+let handleKeyDown, handleTouch; // Declare these to remove later
 
+function startHamsterGame() {
+  if (gameActive) return;
+  gameActive = true;
+  showSection('hamsterGame');
+  
+  // Game elements
+  const hamster = document.getElementById('hamster');
+  const game = document.getElementById('game');
+  const scoreEl = document.getElementById('score');
+  
+  // Game variables
+  let score = 0;
+  let isJumping = false;
+  let gameOver = false;
+  let cactusSpeed = 9;
+  let cactuses = [];
+  let gravity = 0.51;
+  let position = 0;
+  let velocity = 0;
+  const jumpForce = -9;
+
+  // Reset score and clear old cactuses
+  scoreEl.textContent = '0';
+  document.querySelectorAll('.cactus').forEach(c => c.remove());
+  cactuses = [];
+
+  // Focus the game for keyboard input
+  game.focus();
+
+  function jump() {
+    if (!isJumping && !gameOver) {
+      isJumping = true;
+      velocity = jumpForce;
+    }
+  }
+
+  function createCactus() {
+    if (gameOver) return;
+    const cactus = document.createElement('div');
+    cactus.classList.add('cactus');
+    cactus.style.position = 'absolute';
+    cactus.style.bottom = '30px';
+    cactus.style.width = '25px';
+    cactus.style.height = '50px';
+    cactus.style.backgroundColor = '#a2d2a2';
+    cactus.style.borderRadius = '10px';
+    cactus.style.right = '-25px';
+    game.appendChild(cactus);
+    cactuses.push(cactus);
+  }
+
+  function update() {
+    if (gameOver) return;
+
+    // Apply gravity
+    velocity += gravity;
+    position += velocity;
+
+    // Ground collision
+    if (position > 0) {
+      position = 0;
+      velocity = 0;
+      isJumping = false;
+    }
+
+    // Update hamster position
+    hamster.style.bottom = (30 - position) + 'px';
+
+    // Move cactuses
+    cactuses.forEach((cactus, index) => {
+      let currentPos = parseInt(cactus.style.right);
+      cactus.style.right = (currentPos + cactusSpeed) + 'px';
+
+      // Check collision
+      const hamsterRect = hamster.getBoundingClientRect();
+      const cactusRect = cactus.getBoundingClientRect();
+      
+      if (
+        hamsterRect.right > cactusRect.left &&
+        hamsterRect.left < cactusRect.right &&
+        hamsterRect.bottom > cactusRect.top &&
+        hamsterRect.top < cactusRect.bottom
+      ) {
+        endGame();
+      }
+
+      // Remove off-screen cactuses
+      if (currentPos > game.offsetWidth) {
+        cactus.remove();
+        cactuses.splice(index, 1);
+        score++;
+        scoreEl.textContent = score;
+        
+        // Increase speed every 5 points
+        if (score % 5 === 0) {
+          cactusSpeed += 0.5;
+        }
+      }
+    });
+
+    animationFrame = requestAnimationFrame(update);
+  }
+
+  function endGame() {
+    if (gameOver) return;
+    gameOver = true;
+    cancelAnimationFrame(animationFrame);
+    clearInterval(cactusInterval);
+    setTimeout(() => {
+      alert('Game Over! Score: ' + score);
+      stopHamsterGame();
+    }, 100);
+  }
+
+  // Event listeners
+  handleKeyDown = function(e) {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      jump();
+    }
+  };
+
+  handleTouch = function(e) {
+    e.preventDefault();
+    jump();
+  };
+
+  game.addEventListener('keydown', handleKeyDown);
+  game.addEventListener('touchstart', handleTouch);
+
+  // Start the game
+  game.focus();
+  animationFrame = requestAnimationFrame(update);
+  cactusInterval = setInterval(createCactus, 2000);
+}
+
+function stopHamsterGame() {
+  gameActive = false;
+  const game = document.getElementById('game');
+  
+  // Remove event listeners
+  game.removeEventListener('keydown', handleKeyDown);
+  game.removeEventListener('touchstart', handleTouch);
+  
+  // Clear intervals
+  cancelAnimationFrame(animationFrame);
+  clearInterval(cactusInterval);
+  
+  // Reset hamster position
+  document.getElementById('hamster').style.bottom = '30px';
+  
+  // Remove all cactuses
+  document.querySelectorAll('.cactus').forEach(c => c.remove());
+  
+  showSection('menu');
+}
 </script>
 <!-- 💘 Love Reasons Section -->
 <div id="loveReasons" class="section">
