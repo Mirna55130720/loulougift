@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>For You 💝</title>
   <style>
+    /* --------------- Global & Existing Styles --------------- */
     html, body {
       margin: 0; padding: 0;
       height: 100%;
@@ -16,187 +17,43 @@
       position: relative;
       z-index: 0;
     }
+    /* Floating hearts */
+    .hearts-background { pointer-events:none; position:fixed; top:0; left:0; width:100vw; height:100vh; overflow:hidden; z-index:-1; background:#fff0f5; }
+    .heart { position:absolute; width:30px; height:30px; fill:#f9c0d8; opacity:.8; animation:floatUp linear infinite; }
+    .pink{fill:#f9c0d8} .purple{fill:#d6a4e0} .lightpink{fill:#ffd1dc} .lavender{fill:#cdb4db}
+    @keyframes floatUp{0%{transform:translateX(0) translateY(0);opacity:.8}50%{transform:translateX(15px) translateY(-50vh);opacity:.6}100%{transform:translateX(-15px) translateY(-100vh);opacity:0}}
 
-    /* Container for floating hearts */
-    .hearts-background {
-      pointer-events: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      z-index: -1;
-      background: #fff0f5;
-    }
+    /* Sections */
+    .section { display:none; position:relative; z-index:1; }
+    .active  { display:block; }
+    h1,h2{ color:#e26ba9; position:relative; z-index:1; }
+    button{ background:#e26ba9; color:#fff; border:none; padding:12px 25px; font-size:16px; cursor:pointer; border-radius:10px; margin-top:20px; opacity:0; animation:fadeIn 1s ease-in .2s forwards; transition:background .3s; position:relative; z-index:1; }
+    button:hover{background:#c3588f}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .typewriter{ font-size:18px; line-height:1.5; white-space:pre-wrap; min-height:100px; }
 
-    /* Style for each heart */
-    .heart {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      fill: #f9c0d8; /* default pastel pink */
-      opacity: 0.8;
-      animation-name: floatUp;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
-    }
+    /* Gallery & Flip‑card */
+    .gallery{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:900px; margin:0 auto; }
+    .flip-card{ background:transparent; width:180px; height:240px; perspective:1000px; cursor:pointer; }
+    .flip-card-inner{ position:relative; width:100%; height:100%; text-align:center; transition:transform .8s; transform-style:preserve-3d; }
+    .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+    .flip-card-front,.flip-card-back{ position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:15px; overflow:hidden; box-shadow:0 6px 15px rgba(0,0,0,.1); }
+    .flip-card-front img{ width:100%; height:100%; object-fit:cover; border-radius:15px; }
+    .flip-card-back{ background:#fce4f3; color:#e26ba9; transform:rotateY(180deg); display:flex; align-items:center; justify-content:center; font-weight:600; padding:20px; font-size:16px; }
+    @media(max-width:500px){ .flip-card{ width:90vw; height:120vw; } }
 
-    /* Different pastel colors */
-    .pink { fill: #f9c0d8; }
-    .purple { fill: #d6a4e0; }
-    .lightpink { fill: #ffd1dc; }
-    .lavender { fill: #cdb4db; }
 
-    /* Floating animation */
-    @keyframes floatUp {
-      0% {
-        transform: translateX(0) translateY(0);
-        opacity: 0.8;
-      }
-      50% {
-        transform: translateX(15px) translateY(-50vh);
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateX(-15px) translateY(-100vh);
-        opacity: 0;
-      }
-    }
-
-    /* Cake container and text */
-    .cake-container {
-      margin: 30px auto;
-      width: 160px;
-      height: 160px;
-      position: relative;
-      z-index: 1;
-    }
-    .cake-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      filter: drop-shadow(0 0 5px #e26ba9);
-    }
-    .cake-text {
-      font-size: 22px;
-      color: #e26ba9;
-      font-weight: bold;
-      margin-top: 15px;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-shadow: 1px 1px 2px #ffc0dc;
-      z-index: 1;
-      position: relative;
-    }
-
-    h1, h2 {
-      color: #e26ba9;
-      position: relative;
-      z-index: 1;
-    }
-    button {
-      background-color: #e26ba9;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 10px;
-      margin-top: 20px;
-      opacity: 0;
-      animation: fadeIn 1s ease-in 0.2s forwards;
-      transition: background-color 0.3s;
-      position: relative;
-      z-index: 1;
-    }
-    button:hover {
-      background-color: #c3588f;
-    }
-    .section {
-      display: none;
-      position: relative;
-      z-index: 1;
-    }
-    .active {
-      display: block;
-    }
-    .typewriter {
-      font-size: 18px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      min-height: 100px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    .flip-card {
-      background-color: transparent;
-      width: 180px;
-      height: 240px;
-      perspective: 1000px;
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
-    }
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-    }
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    .flip-card-front img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 15px;
-    }
-    .flip-card-back {
-      background-color: #fce4f3;
-      color: #e26ba9;
-      transform: rotateY(180deg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      padding: 20px;
-      font-size: 16px;
-    }
-    @media (max-width: 500px) {
-      .flip-card {
-        width: 90vw;
-        height: 120vw;
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    /* --------------- QUIZ STYLES --------------- */
+    #quizForm{ max-width:600px; margin:0 auto; text-align:left; }
+    #quizForm fieldset{ border:none; margin:1.3rem 0; padding:0; display:none; }
+    #quizForm fieldset.visible{ display:block; animation:pop .5s ease-out both; }
+    #quizForm legend{ font-weight:600; margin-bottom:.65rem; }
+    #quizForm label{ display:block; margin:.45rem 0; line-height:1.4; cursor:pointer; }
+    #quizForm input[type="text"]{ width:100%; padding:.5rem .7rem; border:2px solid #e26ba9; border-radius:.6rem; font-size:1rem; box-sizing:border-box; }
+    #quizForm button[type="submit"]{ display:block; margin:2rem auto 0; }
+    #results{ list-style:none; padding:0; }
+    #results li{ background:#ffd1dc; padding:1rem; border-radius:.8rem; margin:1rem 0; }
+    @keyframes pop{ 0%{opacity:0; transform:scale(.92);} 100%{opacity:1; transform:scale(1);} }
   </style>
 </head>
 <body>
@@ -226,213 +83,310 @@
 <div id="menu" class="section">
   <h2>Welcome to Our Little World 💞</h2>
   <div class="cake-container">
-    <img src="happy_birthday.gif" alt="Cake with candles" />
+    <img src="happy_birthday.gif" alt="Cake with candles" style="width:160px;height:auto;filter:drop-shadow(0 0 5px #e26ba9)" />
   </div>
   <p>Pick a door to open...</p>
   <button onclick="showSection('memories')">📸 Our Memories</button>
   <button onclick="showSection('games')">🎮 Our Games</button>
-  <div class="cake-text">Happy Birthday Baby 🎂</div>
+  <button onclick="showSection('quiz')">❓ Couple Quiz</button>
+  <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 </div>
 
-<!-- 📸 Memories Section -->
+<!-- 📸 Memories Section (unchanged) -->
 <div id="memories" class="section">
   <h2>You’ve always been with me 💖</h2>
   <div class="gallery">
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo1.jpeg" alt="Second Date" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our second date</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo2.jpeg" alt="First Kiss in Bizerte" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our first kiss in Bizerte</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo3.jpeg" alt="Said I love you" />
-        </div>
-        <div class="flip-card-back">
-          <p>When we both said "I love you"</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo4.jpeg" alt="First Sleepover" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our first sleepover</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo5.jpeg" alt="First Intimate Moment" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our first intimate moment</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo6.jpeg" alt="My Birthday" />
-        </div>
-        <div class="flip-card-back">
-          <p>My birthday</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo7.jpeg" alt="My Graduation" />
-        </div>
-        <div class="flip-card-back">
-          <p>My graduation day</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo8.jpeg" alt="His Graduation" />
-        </div>
-        <div class="flip-card-back">
-          <p>Your graduation day</p>
-        </div>
-      </div>
-    </div>
+    <!-- eight flip‑cards exactly as provided -->
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo1.jpeg" alt="Second Date" /></div><div class="flip-card-back"><p>Our second date</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo2.jpeg" alt="First Kiss in Bizerte" /></div><div class="flip-card-back"><p>Our first kiss in Bizerte</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo3.jpeg" alt="Said I love you" /></div><div class="flip-card-back"><p>When we both said "I love you"</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo4.jpeg" alt="First Sleepover" /></div><div class="flip-card-back"><p>Our first sleepover</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo5.jpeg" alt="First Intimate Moment" /></div><div class="flip-card-back"><p>Our first intimate moment</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo6.jpeg" alt="My Birthday" /></div><div class="flip-card-back"><p>My birthday</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo7.jpeg" alt="My Graduation" /></div><div class="flip-card-back"><p>My graduation day</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo8.jpeg" alt="His Graduation" /></div><div class="flip-card-back"><p>Your graduation day</p></div></div></div>
   </div>
-  <br />
-  <button onclick="showSection('menu')">← Back</button>
+  <br /><button onclick="showSection('menu')">← Back</button>
 </div>
 
-<!-- 🎮 Games -->
+<!-- 🎮 Games Section (unchanged) -->
 <div id="games" class="section">
   <h2>Our Favorite Games 🎮</h2>
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 900px; margin: 0 auto;">
-    <div style="width: 150px; text-align: center; cursor: default;">
-      <img src="it_takes_two.jpeg" alt="It Takes Two" style="width: 150px; height: 150px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-      <p>It Takes Two</p>
-    </div>
-    <div style="width: 150px; text-align: center; cursor: default;">
-      <img src="the_past_within.jpeg" alt="The Past Within" style="width: 150px; height: 150px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-      <p>The Past Within</p>
-    </div>
-    <div style="width: 150px; text-align: center; cursor: default;">
-      <img src="we_were_here_expedition.jpeg" alt="We Were Here Expedition" style="width: 150px; height: 150px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-      <p>We Were Here Expedition</p>
-    </div>
-    <div style="width: 150px; text-align: center; cursor: default;">
-      <img src="we_were_here.jpeg" alt="We Were Here" style="width: 150px; height: 150px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-      <p>We Were Here</p>
-    </div>
-    <div style="width: 150px; text-align: center; cursor: default;">
-      <img src="united_heist.jpeg" alt="United Heist" style="width: 150px; height: 150px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-      <p>United Heist</p>
-    </div>
-    <div style="width: 150px; text-align: center; cursor: default;">
-      <img src="in_sink.jpeg" alt="In Sink" style="width: 150px; height: 150px; border-radius: 15px; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.2);" />
-      <p>In Sink</p>
-    </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:25px;max-width:900px;margin:0 auto;">
+    <div style="width:150px;text-align:center"><img src="it_takes_two.jpeg" alt="It Takes Two" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>It Takes Two</p></div>
+    <div style="width:150px;text-align:center"><img src="the_past_within.jpeg" alt="The Past Within" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>The Past Within</p></div>
+    <div style="width:150px;text-align:center"><img src="we_were_here_expedition.jpeg" alt="We Were Here Expedition" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>We Were Here Expedition</p></div>
+    <div style="width:150px;text-align:center"><img src="we_were_here.jpeg" alt="We Were Here" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>We Were Here</p></div>
+    <div style="width:150px;text-align:center"><img src="united_heist.jpeg" alt="United Heist" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>United Heist</p></div>
+    <div style="width:150px;text-align:center"><img src="in_sink.jpeg" alt="In Sink" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>In Sink</p></div>
   </div>
+  <br /><button onclick="showSection('menu')">← Back</button>
+</div>
+<!-- ❓ Couple Quiz Section -->
+<div id="quiz" class="section">
+  <h2>How well do we know each other? 💑</h2>
+  <form id="quizForm">
+    <!-- Questions injected by JS -->
+    <button type="submit">Submit Answers</button>
+  </form>
+  <section id="summary" style="display:none;">
+    <h3>Your Answers</h3>
+    <ul id="results"></ul>
+  </section>
   <br />
   <button onclick="showSection('menu')">← Back</button>
 </div>
 
-
 <script>
-  function typeText(id, text, speed = 30) {
-    let i = 0;
-    const el = document.getElementById(id);
-    el.innerHTML = '';
-    function type() {
-      if (i < text.length) {
-        el.innerHTML += text.charAt(i);
-        i++;
-        setTimeout(type, speed);
-      }
-    }
-    type();
-  }
-
-  const stepTexts = {
-    text1: "You already saw your first gift.",
-    text2: "Now it's time for your second gift...\nA tiramisu 🍰 made with love, just for you.",
-    text3: "And the third one...\nA handcraft gift ✂️",
-    text4: "And finally...\nThis website 💻 not as perfect as an engineer's work,\nbut made with all the love in the world 💗"
-  };
-
-  function nextStep(stepId) {
-    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-    document.getElementById(stepId).classList.add("active");
-    if (stepId.startsWith("step")) {
-      typeText("text" + stepId.slice(-1), stepTexts["text" + stepId.slice(-1)]);
-    }
-    if (stepId !== "step1") {
-      localStorage.setItem("giftSeen", "yes");
-    }
-  }
-
-  function showSection(sectionId) {
-    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-    document.getElementById(sectionId).classList.add("active");
-  }
-
+  /* ---------- Existing JS (intro, hearts, gallery, navigation) ---------- */
+  function typeText(id, text, speed = 30){ let i=0; const el=document.getElementById(id); el.innerHTML=''; (function type(){ if(i<text.length){ el.innerHTML += text.charAt(i); i++; setTimeout(type,speed);} })(); }
+  const stepTexts={text1:"You already saw your first gift.", text2:"Now it's time for your second gift...\nA tiramisu 🍰 made with love, just for you.", text3:"And the third one...\nA handcraft gift ✂️", text4:"And finally...\nThis website 💻 not as perfect as an engineer's work,\nbut made with all the love in the world 💗"};
+  function nextStep(stepId){ document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active')); document.getElementById(stepId).classList.add('active'); if(stepId.startsWith('step')){ typeText('text'+stepId.slice(-1), stepTexts['text'+stepId.slice(-1)]);} if(stepId!=='step1'){ localStorage.setItem('giftSeen','yes');}}
+  function showSection(id){ document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active')); document.getElementById(id).classList.add('active'); }
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.flip-card').forEach(card => {
-      card.addEventListener('click', () => {
-        card.classList.toggle('flipped');
+    // Flip‑cards
+    document.querySelectorAll('.flip-card').forEach(card=>card.addEventListener('click',()=>card.classList.toggle('flipped')));
+    // Hearts
+    const heartsContainer=document.querySelector('.hearts-background'); const colors=['pink','purple','lightpink','lavender']; const numHearts=30; const svgHeart=`<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path d="M23.6,0c-3.4,0-6.4,2.6-7.6,5.7C14.8,2.6,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,7.9,16,21.2,16,21.2s16-13.3,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>`; for(let i=0;i<numHearts;i++){ const d=document.createElement('div'); d.classList.add('heart', colors[Math.floor(Math.random()*colors.length)]); d.style.left=Math.random()*100+'vw'; const size=15+Math.random()*15; d.style.width=size+'px'; d.style.height=size+'px'; const dur=10+Math.random()*15; d.style.animationDuration=dur+'s'; d.style.animationDelay=(Math.random()*dur)+'s'; d.innerHTML=svgHeart; heartsContainer.appendChild(d);}    
+    // Gift already seen?
+    if(localStorage.getItem('giftSeen')==='yes'){ showSection('menu'); } else { typeText('text1', stepTexts.text1); }
+
+  // Quiz questions and options
+  const quizQuestions = [
+  {
+    question: "What is his/her favorite color?",
+    answers: ["Red", "Blue", "Green", "Yellow"]
+  },
+  {
+    question: "What is his/her favorite meal or dish?",
+    answers: ["Pizza", "Pasta", "Sushi", "Salad"]
+  },
+  {
+    question: "What is his/her favorite drink?",
+    answers: ["Coffee", "Tea", "Juice", "Water"]
+  },
+  {
+    question: "What is his/her favorite song right now?",
+    answers: ["Shape of You", "Blinding Lights", "Levitating", "Someone You Loved"]
+  },
+  {
+    question: "What is his/her comfort movie or series?",
+    answers: ["Friends", "Harry Potter", "The Office", "Stranger Things"]
+  },
+  {
+    question: "What is his/her dream travel destination?",
+    answers: ["Paris", "Maldives", "Tokyo", "New York"]
+  },
+  {
+    question: "What does he/she order the most at a café?",
+    answers: ["Latte", "Espresso", "Cappuccino", "Hot Chocolate"]
+  },
+  {
+    question: "What is his/her biggest fear?",
+    answers: ["Heights", "Spiders", "Public speaking", "Darkness"]
+  },
+  {
+    question: "What’s his/her favorite childhood memory?",
+    answers: ["Family trips", "Playing outside", "Birthday parties", "Learning to ride a bike"]
+  },
+  {
+    question: "What’s his/her go-to activity when sad or stressed?",
+    answers: ["Listening to music", "Watching movies", "Exercising", "Reading"]
+  },
+  {
+    question: "What’s one item he/she never leaves the house without?",
+    answers: ["Phone", "Wallet", "Keys", "Sunglasses"]
+  },
+  {
+    question: "What is his/her love language? (e.g., physical touch, words of affirmation…)",
+    answers: ["Physical touch", "Words of affirmation", "Acts of service", "Quality time"]
+  },
+  {
+    question: "How does he/she express jealousy?",
+    answers: ["Getting quiet", "Asking questions", "Ignoring", "Showing affection"]
+  },
+  {
+    question: "What was his/her first impression of you?",
+    answers: ["Friendly", "Funny", "Shy", "Confident"]
+  },
+  {
+    question: "Which of your shared memories means the most to him/her?",
+    answers: ["First date", "Trip together", "Celebration", "Random moments"]
+  }
+];
+
+
+// Current question index
+let currentQuestionIndex = 0;
+
+// Store user answers
+const userAnswers = [];
+
+// Reference to quiz form and container
+const quizForm = document.getElementById("quizForm");
+const resultsSection = document.getElementById("summary");
+const resultsList = document.getElementById("results");
+
+function showQuestion(index) {
+  quizForm.innerHTML = ""; // Clear previous question
+
+  const questionData = quizQuestions[index];
+
+  // Create fieldset
+  const fieldset = document.createElement("fieldset");
+  fieldset.classList.add("visible");
+
+  // Question legend
+  const legend = document.createElement("legend");
+  legend.textContent = questionData.question;
+  fieldset.appendChild(legend);
+
+  // Create radio inputs for answers
+  questionData.answers.forEach((answer) => {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "answer";
+    input.value = answer;
+    input.required = true;
+
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(answer));
+    fieldset.appendChild(label);
+  });
+
+  // Add "Other" option with input
+  const otherLabel = document.createElement("label");
+  const otherInput = document.createElement("input");
+  otherInput.type = "radio";
+  otherInput.name = "answer";
+  otherInput.value = "Other";
+  otherInput.required = true;
+
+  const otherTextInput = document.createElement("input");
+  otherTextInput.type = "text";
+  otherTextInput.name = "otherAnswer";
+  otherTextInput.placeholder = "Your answer here...";
+  otherTextInput.style.display = "none";
+  otherTextInput.style.marginLeft = "10px";
+  otherTextInput.required = false; // validate manually
+
+  otherLabel.appendChild(otherInput);
+  otherLabel.appendChild(document.createTextNode("Other"));
+  otherLabel.appendChild(otherTextInput);
+  fieldset.appendChild(otherLabel);
+
+  // Show/hide text input when "Other" is selected
+  otherInput.addEventListener("change", () => {
+    otherTextInput.style.display = "inline-block";
+    otherTextInput.required = true;
+    otherTextInput.focus();
+  });
+
+  // Hide text input when any other radio is selected
+  fieldset.querySelectorAll('input[type="radio"][name="answer"]').forEach(radio => {
+    if (radio !== otherInput) {
+      radio.addEventListener("change", () => {
+        otherTextInput.style.display = "none";
+        otherTextInput.required = false;
+        otherTextInput.value = "";
       });
-    });
-
-    // Generate floating hearts with SVG
-    const heartsContainer = document.querySelector('.hearts-background');
-    const colors = ['pink', 'purple', 'lightpink', 'lavender'];
-    const numHearts = 30;
-    const svgHeart = `<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg">
-      <path d="M23.6,0c-3.4,0-6.4,2.6-7.6,5.7C14.8,2.6,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,7.9,16,21.2,16,21.2s16-13.3,16-21.2
-      C32,3.8,28.2,0,23.6,0z"/>
-    </svg>`;
-
-    for(let i = 0; i < numHearts; i++) {
-      const div = document.createElement('div');
-      div.classList.add('heart', colors[Math.floor(Math.random()*colors.length)]);
-      div.style.left = Math.random() * 100 + 'vw';
-      const size = 15 + Math.random() * 15;
-      div.style.width = size + 'px';
-      div.style.height = size + 'px';
-      const duration = 10 + Math.random() * 15;
-      div.style.animationDuration = duration + 's';
-      div.style.animationDelay = (Math.random() * duration) + 's';
-      div.innerHTML = svgHeart;
-      heartsContainer.appendChild(div);
     }
   });
 
-  window.onload = function () {
-    if (localStorage.getItem("giftSeen") === "yes") {
-      showSection("menu");
-    } else {
-      typeText("text1", stepTexts.text1);
+  // Next or Submit button
+  const btn = document.createElement("button");
+  if (index === quizQuestions.length - 1) {
+    btn.type = "submit";
+    btn.textContent = "Submit Answers";
+  } else {
+    btn.type = "button";
+    btn.textContent = "Next";
+    btn.addEventListener("click", () => {
+      const selected = quizForm.querySelector('input[name="answer"]:checked');
+      if (!selected) {
+        alert("Please select an answer to continue.");
+        return;
+      }
+      if (selected.value === "Other") {
+        if (!otherTextInput.value.trim()) {
+          alert("Please enter your answer.");
+          return;
+        }
+        userAnswers[index] = otherTextInput.value.trim();
+      } else {
+        userAnswers[index] = selected.value;
+      }
+      currentQuestionIndex++;
+      showQuestion(currentQuestionIndex);
+    });
+  }
+  fieldset.appendChild(btn);
+  quizForm.appendChild(fieldset);
+}
+
+// Handle form submit
+quizForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const selected = quizForm.querySelector('input[name="answer"]:checked');
+  const otherTextInput = quizForm.querySelector('input[name="otherAnswer"]');
+  if (!selected) {
+    alert("Please select an answer before submitting.");
+    return;
+  }
+  if (selected.value === "Other") {
+    if (!otherTextInput.value.trim()) {
+      alert("Please enter your answer.");
+      return;
     }
-  };
+    userAnswers[currentQuestionIndex] = otherTextInput.value.trim();
+  } else {
+    userAnswers[currentQuestionIndex] = selected.value;
+  }
+  quizForm.style.display = "none";
+  displayResults();
+});
+
+
+// Display user answers
+function displayResults() {
+  resultsList.innerHTML = "";
+  quizQuestions.forEach((q, i) => {
+    const li = document.createElement("li");
+    li.textContent = `${q.question} — Your answer: ${userAnswers[i] || "No answer"}`;
+    resultsList.appendChild(li);
+  });
+  resultsSection.style.display = "block";
+}
+
+// Initialize quiz on page load or when quiz section is shown
+function startQuiz() {
+  currentQuestionIndex = 0;
+  userAnswers.length = 0;
+  resultsSection.style.display = "none";
+  quizForm.style.display = "block";
+  showQuestion(currentQuestionIndex);
+}
+
+// Add event listener to quiz menu button to start quiz fresh
+document.querySelector("button[onclick=\"showSection('quiz')\"]").addEventListener("click", () => {
+  startQuiz();
+});
+
+    function showNext(idx){ if(idx < quizQuestions.length-1){ const nextFs=quizForm.querySelectorAll('fieldset')[idx+1]; nextFs.classList.add('visible'); } }
+
+    quizForm.addEventListener('submit',e=>{
+      e.preventDefault(); const results=[];
+      quizQuestions.forEach((q,idx)=>{
+        const radios=[...quizForm.querySelectorAll(`input[name='q${idx}']`)]; let ans=''; radios.forEach(r=>{ if(r.checked) ans=r.value; });
+        if(!ans){ const ci=quizForm.querySelector(`input[name='q${idx}_custom']`); ans=ci.value.trim()||'(no answer)'; }
+        results.push({question:q.text, answer:ans});
+      });
+      const list=document.getElementById('results'); list.innerHTML='';
+      results.forEach((r,i)=>{ const li=document.createElement('li'); li.innerHTML=`<strong>${i+1}. ${r.question}</strong><br>${r.answer}`; list.appendChild(li); });
+      document.getElementById('summary').style.display='block'; document.getElementById('summary').scrollIntoView({behavior:'smooth'});
+    });
+  });
 </script>
 
 </body>
