@@ -42,7 +42,6 @@
     .flip-card-back{ background:#fce4f3; color:#e26ba9; transform:rotateY(180deg); display:flex; align-items:center; justify-content:center; font-weight:600; padding:20px; font-size:16px; }
     @media(max-width:500px){ .flip-card{ width:90vw; height:120vw; } }
 
-
     /* --------------- QUIZ STYLES --------------- */
     #quizForm{ max-width:600px; margin:0 auto; text-align:left; }
     #quizForm fieldset{ border:none; margin:1.3rem 0; padding:0; display:none; }
@@ -147,22 +146,127 @@
       user-select: none;
     }
 
-    /* reuse existing button styles */
+    /* --------------- HEART CATCHER GAME STYLES --------------- */
+    #heartCanvas {
+      border: 3px solid #f9c0d8;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+      box-shadow: 0 8px 25px rgba(227, 107, 169, 0.3);
+    }
+    
+    #heartScore {
+      font-size: 1.5rem;
+      color: #c70059;
+      font-weight: bold;
+      margin: 15px 0;
+      text-shadow: 1px 1px 3px #ffaccb;
+    }
+
+    /* --------------- MEMORY GAME STYLES --------------- */
+    #memoryGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(227, 107, 169, 0.3);
+    }
+    
+    .memory-card {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #f9c0d8 0%, #d6a4e0 100%);
+      border: 3px solid #ffaccb;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      perspective: 1000px;
+    }
+    
+    .memory-card.flipped {
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+      transform: rotateY(180deg);
+    }
+    
+    .memory-card.matched {
+      background: linear-gradient(135deg, #c3f0ca 0%, #a8e6cf 100%);
+      cursor: default;
+      transform: scale(1.1);
+    }
+    
+    .memory-card:hover:not(.flipped):not(.matched) {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(227, 107, 169, 0.5);
+    }
+    
+    .memory-card .card-front,
+    .memory-card .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      backface-visibility: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .memory-card .card-back {
+      background: linear-gradient(135deg, #f9c0d8 0%, #d6a4e0 100%);
+      transform: rotateY(0deg);
+    }
+    
+    .memory-card .card-front {
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+      transform: rotateY(180deg);
+    }
+    
+    .memory-card.flipped .card-back {
+      transform: rotateY(-180deg);
+    }
+    
+    .memory-card.flipped .card-front {
+      transform: rotateY(0deg);
+    }
+    
+    #memoryStats {
+      display: flex;
+      justify-content: space-between;
+      max-width: 400px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      color: #c70059;
+      font-weight: bold;
+    }
 
     @media (max-width: 420px) {
       #puzzle-board { width: 260px; height: 260px; border-radius: 20px; }
       #pieces-container { width: 260px; min-height: 110px; border-radius: 20px; padding: 15px; }
       .piece { width: 80px; height: 80px; background-size: 240px 240px; border-radius: 8px; }
+      #memoryGrid { grid-template-columns: repeat(3, 1fr); max-width: 300px; }
+      .memory-card { width: 70px; height: 70px; font-size: 1.5rem; }
+      #heartCanvas { width: 280px; height: 280px; }
     }
-.cactus {
-  position: absolute;
-  bottom: 30px;
-  width: 25px;
-  height: 50px;
-  background-color: #a2d2a2;
-  border-radius: 10px;
-}
-</style>
+
+    .cactus {
+      position: absolute;
+      bottom: 30px;
+      width: 25px;
+      height: 50px;
+      background-color: #a2d2a2;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
 
@@ -198,20 +302,20 @@
   <button onclick="showSection('games')">🎮 Our Games</button>
   <button onclick="showSection('quiz')">❓ Couple Quiz</button>
   <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
-<div style="margin-top:10px;">
-  <button onclick="startSnake()">🐍 Snake Game</button>
-  <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
+  <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
   
-</div>
+  <div style="margin-top:10px;">
+    <button onclick="startSnake()">🐍 Snake Game</button>
+    <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
+    <button onclick="startHeartCatcher()">💖 Heart Catcher</button>
+    <button onclick="startMemoryGame()">🧠 Memory Game</button>
+  </div>
   <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
-
 </div>
- <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
- 
 
 <!-- 📸 Memories Section -->
 <div id="memories" class="section">
-  <h2>You’ve always been with me 💖</h2>
+  <h2>You've always been with me 💖</h2>
   <div class="gallery">
     <!-- eight flip‑cards exactly as provided -->
     <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo1.jpeg" alt="Second Date" /></div><div class="flip-card-back"><p>Our second date</p></div></div></div>
@@ -265,6 +369,20 @@
   <br />
   <button onclick="showSection('menu')">← Back</button>
 </div>
+
+<!-- 💘 Love Reasons Section -->
+<div id="loveReasons" class="section">
+  <h2>Why I Love You 💖</h2>
+  <div class="love-generator">
+    <div id="reasonDisplay" class="reason-box" style="font-size:20px;color:#e26ba9;font-weight:bold;margin:25px auto;max-width:500px;min-height:60px;">
+      Click the button to see a reason...
+    </div>
+    <button onclick="showLoveReason()">Tell Me 💘</button>
+  </div>
+  <br />
+  <button onclick="showSection('menu')">← Back</button>
+</div>
+
 <!-- 🐍 Snake Game Section -->
 <div id="snakeGame" class="section">
   <h2 style="color:#e26ba9;">Pastel Snake Game 🐍</h2>
@@ -272,6 +390,7 @@
   <p id="snakeScore" style="font-weight:bold;color:#c70059;margin-top:10px;">Score: 0</p>
   <button onclick="stopSnake()">← Back</button>
 </div>
+
 <!-- 🐹 Hamster Runner Game Section -->
 <div id="hamsterGame" class="section">
   <h2 style="color:#e26ba9;">Pastel Hamster Runner 🐹</h2>
@@ -294,24 +413,52 @@
   </div>
   <button onclick="stopHamsterGame()">← Back</button>
 </div>
+
+<!-- 💖 Heart Catcher Game Section -->
+<div id="heartCatcher" class="section">
+  <h2 style="color:#e26ba9;">Catch My Hearts 💖</h2>
+  <p style="color:#c70059;">Move with arrow keys or click/touch to catch falling hearts!</p>
+  <canvas id="heartCanvas" width="350" height="400"></canvas>
+  <div id="heartScore">Score: 0 💕</div>
+  <div id="heartLives" style="color:#c70059;font-weight:bold;font-size:1.2rem;">Lives: ❤️❤️❤️</div>
+  <button onclick="stopHeartCatcher()">← Back</button>
+</div>
+
+<!-- 🧠 Memory Game Section -->
+<div id="memoryGame" class="section">
+  <h2 style="color:#e26ba9;">Our Memory Game 🧠</h2>
+  <p style="color:#c70059;">Match the pairs of love emojis!</p>
+  <div id="memoryStats">
+    <div>Moves: <span id="moves">0</span></div>
+    <div>Pairs: <span id="pairs">0</span>/8</div>
+    <div>Time: <span id="timer">0</span>s</div>
+  </div>
+  <div id="memoryGrid"></div>
+  <div id="memoryMessage" style="font-size:1.5rem;color:#c70059;font-weight:bold;margin-top:15px;display:none;">
+    Congratulations! You won my heart! 💕
+  </div>
+  <button onclick="restartMemoryGame()">New Game</button>
+  <button onclick="stopMemoryGame()">← Back</button>
+</div>
+
 <script>
 // Reasons why I love you 💘
 const loveReasons = [
-  "You always listen, even when I don’t make sense.",
+  "Aandek ahsen 3inin f denya.",
   "Your hugs feel like home.",
-  "You make me laugh even when I don’t feel like smiling.",
+  "Aandk ahsen bdan f denya.",
   "You believe in me more than I believe in myself.",
-  "You make the small things feel magical.",
+  "I feel safe ki nbda maak.",
   "You see the best in me.",
-  "You’re patient with my chaos.",
-  "Your eyes are my favorite place to get lost.",
-  "You make even silence feel beautiful.",
-  "You make love feel effortless.",
-  "You always make time for me, no matter how busy you are.",
+  "Aandk ahsen tabsima f denya.",
+  "L wa9t maak ytaada fisaa w mahleh.",
+  "Kol me nokhrj maak netwahchek akther.",
+  "kol chy fik yethab.",
+  "Dima tsmaani w tansahni.",
   "Your kisses fix everything.",
-  "You remember the little things that matter most.",
+  "Hdithek dima mahleeh w funnyy.",
   "You give me reasons to look forward to tomorrow.",
-  "You're my calm in every storm."
+  "Aaatitni l asbeb l kefya bch nra hayet maak."
 ];
 
 function showLoveReason() {
@@ -687,6 +834,287 @@ function stopHamsterGame() {
   document.querySelectorAll('.cactus').forEach(c => c.remove());
   
   showSection('menu');
+}
+// HEART CATCHER GAME 💖
+let heartCanvas, heartCtx, heartCatcherInterval, heartAnimationFrame;
+let heartPlayer, hearts, heartScore, heartLives;
+let heartKeys = {};
+
+function startHeartCatcher() {
+  showSection('heartCatcher');
+  heartCanvas = document.getElementById('heartCanvas');
+  heartCtx = heartCanvas.getContext('2d');
+  
+  // Game variables
+  heartScore = 0;
+  heartLives = 3;
+  hearts = [];
+  heartPlayer = {
+    x: heartCanvas.width / 2 - 25,
+    y: heartCanvas.height - 60,
+    width: 50,
+    height: 40,
+    speed: 6
+  };
+  
+  // Update displays
+  document.getElementById('heartScore').textContent = 'Score: 0 💕';
+  document.getElementById('heartLives').textContent = 'Lives: ❤️❤️❤️';
+  
+  // Event listeners
+  document.addEventListener('keydown', handleHeartKeyDown);
+  document.addEventListener('keyup', handleHeartKeyUp);
+  heartCanvas.addEventListener('click', handleHeartClick);
+  heartCanvas.addEventListener('touchstart', handleHeartTouch);
+  
+  // Start game loop
+  heartCatcherInterval = setInterval(spawnHeart, 1000);
+  heartAnimationFrame = requestAnimationFrame(updateHeartCatcher);
+}
+
+function stopHeartCatcher() {
+  clearInterval(heartCatcherInterval);
+  cancelAnimationFrame(heartAnimationFrame);
+  
+  // Remove event listeners
+  document.removeEventListener('keydown', handleHeartKeyDown);
+  document.removeEventListener('keyup', handleHeartKeyUp);
+  heartCanvas.removeEventListener('click', handleHeartClick);
+  heartCanvas.removeEventListener('touchstart', handleHeartTouch);
+  
+  showSection('menu');
+}
+
+function handleHeartKeyDown(e) {
+  heartKeys[e.key] = true;
+}
+
+function handleHeartKeyUp(e) {
+  heartKeys[e.key] = false;
+}
+
+function handleHeartClick(e) {
+  const rect = heartCanvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  heartPlayer.x = clickX - heartPlayer.width / 2;
+  if (heartPlayer.x < 0) heartPlayer.x = 0;
+  if (heartPlayer.x > heartCanvas.width - heartPlayer.width) heartPlayer.x = heartCanvas.width - heartPlayer.width;
+}
+
+function handleHeartTouch(e) {
+  e.preventDefault();
+  const rect = heartCanvas.getBoundingClientRect();
+  const touchX = e.touches[0].clientX - rect.left;
+  heartPlayer.x = touchX - heartPlayer.width / 2;
+  if (heartPlayer.x < 0) heartPlayer.x = 0;
+  if (heartPlayer.x > heartCanvas.width - heartPlayer.width) heartPlayer.x = heartCanvas.width - heartPlayer.width;
+}
+
+function spawnHeart() {
+  const heart = {
+    x: Math.random() * (heartCanvas.width - 30),
+    y: -30,
+    width: 30,
+    height: 30,
+    speed: 2 + Math.random() * 3,
+    color: ['#ff69b4', '#ff1493', '#ffc0cb', '#da70d6'][Math.floor(Math.random() * 4)]
+  };
+  hearts.push(heart);
+}
+
+function updateHeartCatcher() {
+  // Clear canvas
+  heartCtx.fillStyle = '#ffe6f0';
+  heartCtx.fillRect(0, 0, heartCanvas.width, heartCanvas.height);
+  
+  // Handle input
+  if (heartKeys['ArrowLeft'] && heartPlayer.x > 0) {
+    heartPlayer.x -= heartPlayer.speed;
+  }
+  if (heartKeys['ArrowRight'] && heartPlayer.x < heartCanvas.width - heartPlayer.width) {
+    heartPlayer.x += heartPlayer.speed;
+  }
+  
+  // Draw player (basket)
+  heartCtx.fillStyle = '#d6a4e0';
+  heartCtx.fillRect(heartPlayer.x, heartPlayer.y, heartPlayer.width, heartPlayer.height);
+  heartCtx.fillStyle = '#c3588f';
+  heartCtx.fillRect(heartPlayer.x + 5, heartPlayer.y + 5, heartPlayer.width - 10, heartPlayer.height - 10);
+  
+  // Update and draw hearts
+  for (let i = hearts.length - 1; i >= 0; i--) {
+    const heart = hearts[i];
+    heart.y += heart.speed;
+    
+    // Draw heart
+    heartCtx.fillStyle = heart.color;
+    heartCtx.font = '25px Arial';
+    heartCtx.fillText('💖', heart.x, heart.y + 25);
+    
+    // Check collision with player
+    if (heart.x < heartPlayer.x + heartPlayer.width &&
+        heart.x + heart.width > heartPlayer.x &&
+        heart.y < heartPlayer.y + heartPlayer.height &&
+        heart.y + heart.height > heartPlayer.y) {
+      // Caught heart
+      heartScore++;
+      document.getElementById('heartScore').textContent = `Score: ${heartScore} 💕`;
+      hearts.splice(i, 1);
+      continue;
+    }
+    
+    // Remove hearts that fell off screen
+    if (heart.y > heartCanvas.height) {
+      hearts.splice(i, 1);
+      heartLives--;
+      updateHeartLives();
+      
+      if (heartLives <= 0) {
+        alert(`Game Over! Final Score: ${heartScore} 💔`);
+        stopHeartCatcher();
+        return;
+      }
+    }
+  }
+  
+  heartAnimationFrame = requestAnimationFrame(updateHeartCatcher);
+}
+
+function updateHeartLives() {
+  const livesText = '❤️'.repeat(heartLives);
+  document.getElementById('heartLives').textContent = `Lives: ${livesText}`;
+}
+
+// MEMORY GAME 🧠
+let memoryCards = [];
+let memoryFlipped = [];
+let memoryMatched = [];
+let memoryMoves = 0;
+let memoryPairs = 0;
+let memoryTimer = 0;
+let memoryTimerInterval;
+let memoryGameActive = false;
+
+const memoryEmojis = ['💖', '💕', '💗', '💓', '💘', '💝', '💞', '💟'];
+
+function startMemoryGame() {
+  showSection('memoryGame');
+  initMemoryGame();
+}
+
+function stopMemoryGame() {
+  clearInterval(memoryTimerInterval);
+  memoryGameActive = false;
+  showSection('menu');
+}
+
+function initMemoryGame() {
+  memoryGameActive = true;
+  memoryFlipped = [];
+  memoryMatched = [];
+  memoryMoves = 0;
+  memoryPairs = 0;
+  memoryTimer = 0;
+  
+  // Create pairs of emojis
+  const gameEmojis = [...memoryEmojis, ...memoryEmojis];
+  gameEmojis.sort(() => Math.random() - 0.5);
+  
+  // Create grid
+  const grid = document.getElementById('memoryGrid');
+  grid.innerHTML = '';
+  
+  gameEmojis.forEach((emoji, index) => {
+    const card = document.createElement('div');
+    card.classList.add('memory-card');
+    card.dataset.index = index;
+    card.dataset.emoji = emoji;
+    
+    const cardBack = document.createElement('div');
+    cardBack.classList.add('card-back');
+    cardBack.textContent = '❓';
+    
+    const cardFront = document.createElement('div');
+    cardFront.classList.add('card-front');
+    cardFront.textContent = emoji;
+    
+    card.appendChild(cardBack);
+    card.appendChild(cardFront);
+    
+    card.addEventListener('click', flipMemoryCard);
+    grid.appendChild(card);
+  });
+  
+  // Reset displays
+  document.getElementById('moves').textContent = '0';
+  document.getElementById('pairs').textContent = '0';
+  document.getElementById('timer').textContent = '0';
+  document.getElementById('memoryMessage').style.display = 'none';
+  
+  // Start timer
+  memoryTimerInterval = setInterval(updateMemoryTimer, 1000);
+}
+
+function flipMemoryCard(e) {
+  if (!memoryGameActive) return;
+  
+  const card = e.currentTarget;
+  const index = parseInt(card.dataset.index);
+  
+  // Can't flip if already flipped or matched
+  if (memoryFlipped.includes(index) || memoryMatched.includes(index)) return;
+  
+  // Can't flip more than 2 cards
+  if (memoryFlipped.length >= 2) return;
+  
+  // Flip the card
+  card.classList.add('flipped');
+  memoryFlipped.push(index);
+  
+  // Check if two cards are flipped
+  if (memoryFlipped.length === 2) {
+    memoryMoves++;
+    document.getElementById('moves').textContent = memoryMoves;
+    
+    const card1 = document.querySelector(`[data-index="${memoryFlipped[0]}"]`);
+    const card2 = document.querySelector(`[data-index="${memoryFlipped[1]}"]`);
+    
+    if (card1.dataset.emoji === card2.dataset.emoji) {
+      // Match found!
+      setTimeout(() => {
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        memoryMatched.push(memoryFlipped[0], memoryFlipped[1]);
+        memoryFlipped = [];
+        memoryPairs++;
+        document.getElementById('pairs').textContent = memoryPairs;
+        
+        // Check if game is complete
+        if (memoryPairs === 8) {
+          clearInterval(memoryTimerInterval);
+          memoryGameActive = false;
+          document.getElementById('memoryMessage').style.display = 'block';
+        }
+      }, 500);
+    } else {
+      // No match
+      setTimeout(() => {
+        card1.classList.remove('flipped');
+        card2.classList.remove('flipped');
+        memoryFlipped = [];
+      }, 1000);
+    }
+  }
+}
+
+function updateMemoryTimer() {
+  memoryTimer++;
+  document.getElementById('timer').textContent = memoryTimer;
+}
+
+function restartMemoryGame() {
+  clearInterval(memoryTimerInterval);
+  initMemoryGame();
 }
 </script>
 <!-- 💘 Love Reasons Section -->
