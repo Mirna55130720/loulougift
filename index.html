@@ -2,341 +2,2020 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>For You 💝</title>
+  <title>For You 💝 – with Puzzle</title>
   <style>
-    body {
-      margin: 0;
+    /* --------------- Global & Existing Styles --------------- */
+    html, body {
+      margin: 0; padding: 0;
+      height: 100%;
+      overflow-x: hidden;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #fff0f5;
+      background: #fff0f5; /* keep the original soft pink */
       color: #444;
       text-align: center;
       padding: 60px 20px;
+      position: relative;
+      z-index: 0;
+    }
+    /* Floating hearts */
+    .hearts-background { pointer-events:none; position:fixed; top:0; left:0; width:100vw; height:100vh; overflow:hidden; z-index:-1; background:#fff0f5; }
+    .heart { position:absolute; width:30px; height:30px; fill:#f9c0d8; opacity:.8; animation:floatUp linear infinite; }
+    .pink{fill:#f9c0d8} .purple{fill:#d6a4e0} .lightpink{fill:#ffd1dc} .lavender{fill:#cdb4db}
+    @keyframes floatUp{0%{transform:translateX(0) translateY(0);opacity:.8}50%{transform:translateX(15px) translateY(-50vh);opacity:.6}100%{transform:translateX(-15px) translateY(-100vh);opacity:0}}
+
+/* Sections */
+.section { display:none; position:relative; z-index:1; }
+.active  { display:block; }
+h1,h2{ color:#e26ba9; position:relative; z-index:1; }
+
+/* Button row layout */
+.button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+}
+
+/* Updated Button Styling */
+button { 
+    border: none; 
+    padding: 15px; 
+    font-size: 14px; 
+    font-weight: 600;
+    cursor: pointer; 
+    border-radius: 15px; 
+    margin: 0;
+    opacity: 0; 
+    animation: fadeIn 1s ease-in .2s forwards; 
+    transition: all 0.3s ease;
+    position: relative; 
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-shadow: none;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    font-family: inherit;
+}
+
+/* Individual button colors with pastel theme */
+.button-row:nth-child(4) button:nth-child(1) { /* Our Memories */
+    background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+    color: #B8860B;
+}
+.button-row:nth-child(4) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #FF91A4, #FF9FB3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4);
+}
+
+.button-row:nth-child(4) button:nth-child(2) { /* Our Games */
+    background: linear-gradient(135deg, #E6E6FA, #DDA0DD);
+    color: #7B4397;
+}
+.button-row:nth-child(4) button:nth-child(2):hover {
+    background: linear-gradient(135deg, #D8D8F8, #D088D0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+.button-row:nth-child(4) button:nth-child(3) { /* Couple Quiz */
+    background: linear-gradient(135deg, #F0E68C, #FFE4B5);
+    color: #B8860B;
+}
+.button-row:nth-child(4) button:nth-child(3):hover {
+    background: linear-gradient(135deg, #EDE06B, #FFD700);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 228, 181, 0.4);
+}
+
+.button-row:nth-child(5) button:nth-child(1) { /* Puzzle */
+    background: linear-gradient(135deg, #98FB98, #90EE90);
+    color: #2E8B57;
+}
+.button-row:nth-child(5) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #87F087, #7FDD7F);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(152, 251, 152, 0.4);
+}
+
+.button-row:nth-child(5) button:nth-child(2) { /* Why I Love You */
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    color: #8B1A4A;
+}
+.button-row:nth-child(5) button:nth-child(2):hover {
+    background: linear-gradient(135deg, #FF91A4, #FF1493);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+}
+
+.button-row:nth-child(5) button:nth-child(3) { /* Calendar */
+    background: linear-gradient(135deg, #B19CD9, #C8A2C8);
+    color: #4A4A4A;
+}
+.button-row:nth-child(5) button:nth-child(3):hover {
+    background: linear-gradient(135deg, #A88BC7, #B896B8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(177, 156, 217, 0.4);
+}
+
+/* Game buttons styling */
+.button-row:nth-child(6) button:nth-child(1) { /* Snake Game */
+    background: linear-gradient(135deg, #B2E6D4, #98E4D6);
+    color: #2E8B57;
+}
+.button-row:nth-child(6) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #FFD1A1, #FFDD98);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(178, 230, 212, 0.4);
+}
+
+.button-row:nth-child(6) button:nth-child(2) { /* Hamster Runner */
+    background: linear-gradient(135deg, #FFDAB9, #FFE4B5);
+    color: #CD853F;
+}
+.button-row:nth-child(6) button:nth-child(2):hover {
+    background: linear-gradient(135deg, #FFD1A1, #FFDD98);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 218, 185, 0.4);
+}
+
+.button-row:nth-child(6) button:nth-child(3) { /* Heart Catcher */
+    background: linear-gradient(135deg, #FFC0CB, #FFB6C1);
+    color: #C71585;
+}
+.button-row:nth-child(6) button:nth-child(3):hover {
+    background: linear-gradient(135deg, #FF9FB3, #FF91A4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 192, 203, 0.4);
+}
+
+.button-row:nth-child(7) button:nth-child(1) { /* Memory Game */
+    background: linear-gradient(135deg, #DDA0DD, #DA70D6);
+    color: #8B008B;
+}
+.button-row:nth-child(7) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #D088D0, #D055D0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+/* Center buttons in other sections */
+.section button:not(.button-row button) {
+    display: block;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #F8BBD9, #F4A6CD);
+    color: #8B4B87;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-width: 120px;
+    height: auto;
+    line-height: 1.4;
+    width: auto;
+}
+
+.section button:not(.button-row button):hover {
+    background: linear-gradient(135deg, #F5A9CB, #F191C1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(248, 187, 217, 0.4);
+}
+
+.section button:not(.button-row button):active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Back button specific styling */
+.section button[onclick*="showSection('main')"] {
+    background: linear-gradient(135deg, #E6E6FA, #DDA0DD) !important;
+    color: #7B4397 !important;
+}
+
+.section button[onclick*="showSection('main')"]:hover {
+    background: linear-gradient(135deg, #D8D8F8, #D088D0) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+/* Quiz/Game specific buttons */
+.section button[onclick*="nextQuestion"], 
+.section button[onclick*="startGame"],
+.section button[onclick*="restartGame"] {
+    background: linear-gradient(135deg, #98FB98, #90EE90) !important;
+    color: #2E8B57 !important;
+}
+
+.section button[onclick*="nextQuestion"]:hover,
+.section button[onclick*="startGame"]:hover,
+.section button[onclick*="restartGame"]:hover {
+    background: linear-gradient(135deg, #87F087, #7FDD7F) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(152, 251, 152, 0.4);
+}
+
+/* Active/pressed state for all buttons */
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Add cute emoji effects */
+button::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+button:hover::before {
+    opacity: 1;
+}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.typewriter{ font-size:18px; line-height:1.5; white-space:pre-wrap; min-height:100px; }
+    /* Gallery & Flip‑card */
+    .gallery{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:900px; margin:0 auto; }
+    .flip-card{ background:transparent; width:180px; height:240px; perspective:1000px; cursor:pointer; }
+    .flip-card-inner{ position:relative; width:100%; height:100%; text-align:center; transition:transform .8s; transform-style:preserve-3d; }
+    .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+    .flip-card-front,.flip-card-back{ position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:15px; overflow:hidden; box-shadow:0 6px 15px rgba(0,0,0,.1); }
+    .flip-card-front img{ width:100%; height:100%; object-fit:cover; border-radius:15px; }
+    .flip-card-back{ background:#fce4f3; color:#e26ba9; transform:rotateY(180deg); display:flex; align-items:center; justify-content:center; font-weight:600; padding:20px; font-size:16px; }
+    @media(max-width:500px){ .flip-card{ width:90vw; height:120vw; } }
+
+    /* --------------- QUIZ STYLES --------------- */
+    #quizForm{ max-width:600px; margin:0 auto; text-align:left; }
+    #quizForm fieldset{ border:none; margin:1.3rem 0; padding:0; display:none; }
+    #quizForm fieldset.visible{ display:block; animation:pop .5s ease-out both; }
+    #quizForm legend{ font-weight:600; margin-bottom:.65rem; }
+    #quizForm label{ display:block; margin:.45rem 0; line-height:1.4; cursor:pointer; }
+    #quizForm input[type="text"]{ width:100%; padding:.5rem .7rem; border:2px solid #e26ba9; border-radius:.6rem; font-size:1rem; box-sizing:border-box; }
+    #quizForm button[type="submit"]{ display:block; margin:2rem auto 0; }
+    #results{ list-style:none; padding:0; }
+    #results li{ background:#ffd1dc; padding:1rem; border-radius:.8rem; margin:1rem 0; }
+    @keyframes pop{ 0%{opacity:0; transform:scale(.92);} 100%{opacity:1; transform:scale(1);} }
+
+    /* --------------- PUZZLE STYLES --------------- */
+    /* All puzzle rules are namespaced under the #puzzle section to avoid clashes */
+    #puzzle h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3rem;
+      margin-bottom: 25px;
+      color: #c70059;
+      text-shadow: 1px 1px 5px #ffaccb;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+    }
+    #puzzle h1::before { content: "💖"; }
+
+    #puzzle-board {
+      position: relative;
+      width: 315px;
+      height: 315px;
+      border-radius: 25px;
+      border: 4px solid #ffaccb;
+      background: radial-gradient(circle at center, #ffe6f0 0%, #ffd1dc 100%);
+      box-shadow: 0 0 20px #f08ab4aa inset;
+      margin: 0 auto 35px;
     }
 
-    h1, h2 {
-      color: #e26ba9;
+    /* Drop zones for snapping highlight */
+    #puzzle .drop-zone {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      left: 0;
+      top: 0;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    }
+    #puzzle .drop-zone.highlight {
+      box-shadow: 0 0 15px 5px #ff80a1aa;
+      background-color: #ffe6f0cc;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .fade-in {
-      animation: fadeIn 1s ease-in forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    button {
-      background-color: #e26ba9;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 10px;
-      margin-top: 20px;
-      opacity: 0;
-      animation: fadeIn 1s ease-in 3s forwards;
-    }
-
-    .section {
-      display: none;
-    }
-
-    .active {
-      display: block;
-    }
-
-    .typewriter {
-      font-size: 18px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      min-height: 100px;
-    }
-
-    /* Memories Section */
-    .gallery {
+    #pieces-container {
+      position: relative;
+      width: 320px;
+      min-height: 120px;
+      background: #fff0f5;
+      border-radius: 25px;
+      padding: 20px;
+      box-shadow: 0 4px 20px rgba(214, 51, 108, 0.3);
+      margin: 0 auto 25px;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
+      gap: 8px;
     }
 
-    .flip-card {
-      background-color: transparent;
-      width: 180px;
-      height: 240px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-
-    .flip-card-inner {
+    .piece {
+      width: 100px;
+      height: 100px;
+      background-image: url('us_puzzle.jpeg'); /* UPDATE with your image */
+      background-size: 300px 300px;
+      border-radius: 10px;
+      cursor: grab;
+      box-shadow: 0 10px 15px rgba(215,0,90,0.3);
+      user-select: none;
+      border: 3px solid #ffaccb;
+      transition: box-shadow 0.2s ease;
       position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
+    }
+    .piece.dragging {
+      opacity: 0.9;
+      cursor: grabbing;
+      box-shadow: 0 25px 40px rgba(215,0,90,0.8);
+      transform: scale(1.1);
+      transition: none;
+      position: fixed !important;
+      z-index: 1000 !important;
+    }
+    .piece:hover:not(.dragging) { box-shadow: 0 14px 25px rgba(215,0,90,0.5); }
+
+    #message {
+      font-size: 1.7rem;
+      margin-top: 25px;
+      color: #c70059;
+      font-weight: 700;
+      text-shadow: 1px 1px 3px #ffaccb;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+      user-select: none;
     }
 
-    .flip-card.flipped .flip-card-inner {
-      transform: rotateY(180deg);
+    /* --------------- HEART CATCHER GAME STYLES --------------- */
+    #heartCanvas {
+      border: 3px solid #f9c0d8;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+      box-shadow: 0 8px 25px rgba(227, 107, 169, 0.3);
+    }
+    
+    #heartScore {
+      font-size: 1.5rem;
+      color: #c70059;
+      font-weight: bold;
+      margin: 15px 0;
+      text-shadow: 1px 1px 3px #ffaccb;
     }
 
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
+    /* --------------- MEMORY GAME STYLES --------------- */
+    #memoryGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff0f5;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(227, 107, 169, 0.3);
+    }
+    
+    .memory-card {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #f9c0d8 0%, #d6a4e0 100%);
+      border: 3px solid #ffaccb;
       border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-
-    .flip-card-front img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 15px;
-    }
-
-    .flip-card-back {
-      background-color: #fce4f3;
-      color: #e26ba9;
-      transform: rotateY(180deg);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
-      padding: 20px;
-      font-size: 16px;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      perspective: 1000px;
+    }
+    
+    .memory-card.flipped {
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+      transform: rotateY(180deg);
+    }
+    
+    .memory-card.matched {
+      background: linear-gradient(135deg, #c3f0ca 0%, #a8e6cf 100%);
+      cursor: default;
+      transform: scale(1.1);
+    }
+    
+    .memory-card:hover:not(.flipped):not(.matched) {
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(227, 107, 169, 0.5);
+    }
+    
+    .memory-card .card-front,
+    .memory-card .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      backface-visibility: hidden;
+      transition: transform 0.3s ease;
+    }
+    
+    .memory-card .card-back {
+      background: linear-gradient(135deg, #f9c0d8 0%, #d6a4e0 100%);
+      transform: rotateY(0deg);
+    }
+    
+    .memory-card .card-front {
+      background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+      transform: rotateY(180deg);
+    }
+    
+    .memory-card.flipped .card-back {
+      transform: rotateY(-180deg);
+    }
+    
+    .memory-card.flipped .card-front {
+      transform: rotateY(0deg);
+    }
+    
+    #memoryStats {
+      display: flex;
+      justify-content: space-between;
+      max-width: 400px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      color: #c70059;
+      font-weight: bold;
     }
 
-    /* Responsive */
-    @media (max-width: 500px) {
-      .flip-card {
-        width: 90vw;
-        height: 120vw;
-      }
+    @media (max-width: 420px) {
+      #puzzle-board { width: 260px; height: 260px; border-radius: 20px; }
+      #pieces-container { width: 260px; min-height: 110px; border-radius: 20px; padding: 15px; }
+      .piece { width: 80px; height: 80px; background-size: 240px 240px; border-radius: 8px; }
+      #memoryGrid { grid-template-columns: repeat(3, 1fr); max-width: 300px; }
+      .memory-card { width: 70px; height: 70px; font-size: 1.5rem; }
+      #heartCanvas { width: 280px; height: 280px; }
     }
+
+    .cactus {
+      position: absolute;
+      bottom: 30px;
+      width: 25px;
+      height: 50px;
+      background-color: #a2d2a2;
+      border-radius: 10px;
+    }
+
+    /* --------------- CALENDAR STYLES --------------- */
+    .calendar-container { max-width: 800px; margin: 0 auto; background: #fff; border-radius: 15px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+    .calendar-nav { background: #e26ba9; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-size: 16px; }
+    .calendar-nav:hover { background: #c3588f; }
+    .calendar-title { font-size: 24px; font-weight: bold; color: #e26ba9; margin: 0 15px; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #f0f0f0; border-radius: 10px; overflow: hidden; }
+    .calendar-day-header { background: #e26ba9; color: white; padding: 15px 5px; text-align: center; font-weight: bold; font-size: 14px; }
+    .calendar-day { background: white; min-height: 100px; padding: 8px; border: 1px solid #f0f0f0; cursor: pointer; transition: background 0.2s; position: relative; }
+    .calendar-day:hover { background: #ffd1dc; }
+    .calendar-day.other-month { background: #f8f8f8; color: #ccc; }
+    .calendar-day.today { background: #fff0f5; border: 2px solid #e26ba9; }
+    .calendar-day.selected { background: #e26ba9; color: white; }
+    .day-number { font-weight: bold; margin-bottom: 5px; }
+    .event-item { background: #ffd1dc; color: #e26ba9; padding: 2px 6px; margin: 2px 0; border-radius: 4px; font-size: 11px; border-left: 3px solid #e26ba9; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .event-form { background: #fff0f5; padding: 20px; border-radius: 10px; margin-top: 20px; }
+    .event-form input, .event-form textarea { width: 100%; padding: 10px; margin: 5px 0; border: 2px solid #e26ba9; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
+    .event-form button { background: #e26ba9; color: white; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; }
+    .event-form button:hover { background: #c3588f; }
+    .event-form button.cancel { background: #ccc; }
+    .event-form button.cancel:hover { background: #aaa; }
+    .events-list { margin-top: 20px; }
+    .event-detail { background: #ffd1dc; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #e26ba9; }
+    .event-detail h4 { margin: 0 0 10px 0; color: #e26ba9; }
+    .event-detail p { margin: 5px 0; color: #666; }
+    .delete-event { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; float: right; }
+    .delete-event:hover { background: #c82333; }
+    @media (max-width: 600px) {
+      .calendar-day { min-height: 80px; font-size: 12px; }
+      .calendar-title { font-size: 18px; }
+    }
+/* Tic-Tac-Toe Game Styles */
+.tictactoe-cell:hover {
+  background-color: #ffd6e7 !important;
+  transform: scale(1.05);
+}
+
+#tictactoeBoard {
+  background-color: #fce4f3;
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
   </style>
 </head>
 <body>
 
-<!-- 🌸 Intro Steps -->
+<!-- Floating hearts container -->
+<div class="hearts-background" aria-hidden="true"></div>
+
+<!-- Intro steps -->
 <div id="step1" class="section active">
   <div class="typewriter" id="text1"></div>
   <button onclick="nextStep('step2')">Next 🎁</button>
 </div>
-
 <div id="step2" class="section">
   <div class="typewriter" id="text2"></div>
   <button onclick="nextStep('step3')">Next 🍰</button>
 </div>
-
 <div id="step3" class="section">
   <div class="typewriter" id="text3"></div>
   <button onclick="nextStep('step4')">Next ✂️</button>
 </div>
-
 <div id="step4" class="section">
   <div class="typewriter" id="text4"></div>
   <button onclick="nextStep('menu')">Enter Website 💕</button>
 </div>
 
-<!-- 🌐 Menu -->
+<!-- Main menu -->
 <div id="menu" class="section">
-  <h2>Welcome to Our Little World 💞</h2>
-  <p>Pick a door to open...</p>
-  <button onclick="showSection('memories')">📸 Our Memories</button>
-  <button onclick="showSection('games')">🎮 Our Games</button>
-  <button onclick="showSection('calendar')">📅 Our Calendar</button>
-  <button onclick="showSection('songs')">🎶 Our Songs</button>
+  <h2 style="margin-bottom: 10px;">Welcome to Our Little World 💞</h2>
+  <div class="cake-container" style="margin-bottom: 8px;">
+    <img src="happy_birthday.gif" alt="Cake with candles" style="width:120px;height:auto;filter:drop-shadow(0 0 5px #e26ba9)" />
+  </div>
+  <p style="margin: 5px 0 10px 0;">Pick a door to open...</p>
+  
+  <!-- First row of buttons -->
+  <div class="button-row">
+    <button onclick="showSection('memories')">📸 Our Memories</button>
+    <button onclick="showSection('games')">🎮 Our Games</button>
+    <button onclick="showSection('quiz')">❓ Couple Quiz</button>
+ <button onclick="startSnake()">🐍 Snake Game</button>
+  </div>
+  
+  <!-- Second row of buttons -->
+  <div class="button-row">
+    <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
+  <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
+    <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
+    <button onclick="showSection('calendar')">📅 Our Calendar</button>
+  </div>
+ 
+  <!-- Fourth row with one button centered -->
+  <div class="button-row">
+    <button onclick="startMemoryGame()">🧠 Memory Game</button>
+ <button onclick="startHeartCatcher()">💖 Heart Catcher</button>
+  <button onclick="startTictactoe()">Play ❌⭕</button>
+  </div>
+  
+  <div class="cake-text" style="font-size:20px;color:#e26ba9;font-weight:bold;margin-top:10px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 </div>
-
 <!-- 📸 Memories Section -->
 <div id="memories" class="section">
-  <h2>You’ve always been with me 💖</h2>
+  <h2>You've always been with me 💖</h2>
   <div class="gallery">
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo1.jpg" alt="Second Date" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our second date</p>
-        </div>
-      </div>
+    <!-- eight flip‑cards exactly as provided -->
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo1.jpeg" alt="Second Date" /></div><div class="flip-card-back"><p>Our second date</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo2.jpeg" alt="First Kiss in Bizerte" /></div><div class="flip-card-back"><p>Our first kiss in Bizerte</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo3.jpeg" alt="Said I love you" /></div><div class="flip-card-back"><p>When we both said "I love you"</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo4.jpeg" alt="First Sleepover" /></div><div class="flip-card-back"><p>Our first sleepover</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo5.jpeg" alt="First Intimate Moment" /></div><div class="flip-card-back"><p>Our first intimate moment</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo6.jpeg" alt="My Birthday" /></div><div class="flip-card-back"><p>My birthday</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo7.jpeg" alt="My Graduation" /></div><div class="flip-card-back"><p>My graduation day</p></div></div></div>
+    <div class="flip-card"><div class="flip-card-inner"><div class="flip-card-front"><img src="photo8.jpeg" alt="His Graduation" /></div><div class="flip-card-back"><p>Your graduation day</p></div></div></div>
+  </div>
+  <br /><button onclick="showSection('menu')">← Back</button>
+</div>
+
+<!-- 🎮 Games Section -->
+<div id="games" class="section">
+  <h2>Our Favorite Games 🎮</h2>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:25px;max-width:900px;margin:0 auto;">
+    <div style="width:150px;text-align:center"><img src="it_takes_two.jpeg" alt="It Takes Two" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>It Takes Two</p></div>
+    <div style="width:150px;text-align:center"><img src="the_past_within.jpeg" alt="The Past Within" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>The Past Within</p></div>
+    <div style="width:150px;text-align:center"><img src="we_were_here_expedition.jpeg" alt="We Were Here Expedition" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>We Were Here Expedition</p></div>
+    <div style="width:150px;text-align:center"><img src="we_were_here.jpeg" alt="We Were Here" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>We Were Here</p></div>
+    <div style="width:150px;text-align:center"><img src="united_heist.jpeg" alt="United Heist" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>United Heist</p></div>
+    <div style="width:150px;text-align:center"><img src="in_sink.jpeg" alt="In Sink" style="width:150px;height:150px;border-radius:15px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,0.2)"><p>In Sink</p></div>
+  </div>
+  <br /><button onclick="showSection('menu')">← Back</button>
+</div>
+
+<!-- ❓ Couple Quiz Section -->
+<div id="quiz" class="section">
+  <h2>How well do we know each other? 💑</h2>
+  <form id="quizForm">
+    <!-- Questions injected by JS -->
+    <button type="submit">Submit Answers</button>
+  </form>
+  <section id="summary" style="display:none;">
+    <h3>Your Answers</h3>
+    <ul id="results"></ul>
+  </section>
+  <br />
+  <button onclick="showSection('menu')">← Back</button>
+</div>
+
+<!-- 🧩 Puzzle Section -->
+<div id="puzzle" class="section">
+  <h1>💞 Drag & Drop Our Puzzle 💞</h1>
+  <div id="puzzle-board" aria-label="Puzzle board"></div>
+  <div id="pieces-container" aria-label="Pieces container"></div>
+  <div id="message" role="alert">You complete me ❤️</div>
+  <button onclick="initPuzzle()">Restart</button>
+  <br />
+  <button onclick="showSection('menu')">← Back</button>
+</div>
+
+<!-- 💘 Love Reasons Section -->
+<div id="loveReasons" class="section">
+  <h2>Why I Love You 💖</h2>
+  <div class="love-generator">
+    <div id="reasonDisplay" class="reason-box" style="font-size:20px;color:#e26ba9;font-weight:bold;margin:25px auto;max-width:500px;min-height:60px;">
+      Click the button to see a reason...
     </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo2.jpg" alt="First Kiss in Bizerte" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our first kiss in Bizerte</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo3.jpg" alt="Said I love you" />
-        </div>
-        <div class="flip-card-back">
-          <p>When we both said "I love you"</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo4.jpg" alt="First Sleepover" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our first sleepover</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo5.jpg" alt="First Intimate Moment" />
-        </div>
-        <div class="flip-card-back">
-          <p>Our first intimate moment</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo6.jpg" alt="My Birthday" />
-        </div>
-        <div class="flip-card-back">
-          <p>My birthday</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo7.jpg" alt="My Graduation" />
-        </div>
-        <div class="flip-card-back">
-          <p>My graduation day</p>
-        </div>
-      </div>
-    </div>
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-card-front">
-          <img src="photo8.jpg" alt="His Graduation" />
-        </div>
-        <div class="flip-card-back">
-          <p>His graduation day</p>
-        </div>
-      </div>
-    </div>
+    <button onclick="showLoveReason()">Tell Me 💘</button>
   </div>
   <br />
   <button onclick="showSection('menu')">← Back</button>
 </div>
 
-<!-- 🎮 Games -->
-<div id="games" class="section">
-  <h2>Our Favorite Games 🎮</h2>
-  <ul style="list-style: none; padding: 0;">
-    <li>🎲 It Takes Two</li>
-    <li>💎 Unravel 2</li>
-    <li>🧠 Portal 2</li>
-  </ul>
-  <button onclick="showSection('menu')">← Back</button>
+<!-- 🐍 Snake Game Section -->
+<div id="snakeGame" class="section">
+  <h2 style="color:#e26ba9;">Pastel Snake Game 🐍</h2>
+  <canvas id="snakeCanvas" width="300" height="300" style="background:#ffe6f0;border-radius:20px;"></canvas>
+  <p id="snakeScore" style="font-weight:bold;color:#c70059;margin-top:10px;">Score: 0</p>
+  <button onclick="stopSnake()">← Back</button>
 </div>
 
-<!-- 📅 Calendar -->
+<!-- 🐹 Hamster Runner Game Section -->
+<div id="hamsterGame" class="section">
+  <h2 style="color:#e26ba9;">Pastel Hamster Runner 🐹</h2>
+  <div id="game" tabindex="0" style="width:400px;height:200px;margin:0 auto;position:relative;overflow:hidden;background:#ffe6f0;border-radius:15px;border:3px solid #f9c0d8;">
+    <div id="instructions" style="position:absolute;top:10px;width:100%;text-align:center;color:#e26ba9;font-size:14px;font-weight:bold;">Press SPACE to Jump!</div>
+    <div id="hamster" style="position:absolute;bottom:30px;left:50px;width:60px;height:40px;">
+      <div class="head" style="position:absolute;width:30px;height:25px;background-color:#f9c0d8;border-radius:50% 50% 40% 40%;top:-15px;left:15px;">
+        <div class="ear-left" style="position:absolute;width:12px;height:15px;background-color:#f9c0d8;border-radius:50%;top:-10px;left:15px;transform:rotate(-30deg);"></div>
+        <div class="ear-right" style="position:absolute;width:12px;height:15px;background-color:#f9c0d8;border-radius:50%;top:-10px;left:30px;transform:rotate(30deg);"></div>
+        <div class="eye-left" style="position:absolute;width:5px;height:5px;background-color:#333;border-radius:50%;top:5px;left:20px;"></div>
+        <div class="eye-right" style="position:absolute;width:5px;height:5px;background-color:#333;border-radius:50%;top:5px;left:30px;"></div>
+        <div class="nose" style="position:absolute;width:4px;height:3px;background-color:#ff9ebb;border-radius:50%;top:10px;left:25px;"></div>
+      </div>
+      <div class="body" style="position:absolute;width:50px;height:30px;background-color:#f9c0d8;border-radius:20px;top:10px;left:5px;"></div>
+      <div class="leg-left" style="position:absolute;width:10px;height:15px;background-color:#f9c0d8;border-radius:5px;bottom:-10px;left:15px;"></div>
+      <div class="leg-right" style="position:absolute;width:10px;height:15px;background-color:#f9c0d8;border-radius:5px;bottom:-10px;left:35px;"></div>
+    </div>
+    <div id="ground" style="position:absolute;bottom:0;width:100%;height:30px;background-color:#d4a373;"></div>
+    <div id="score" style="position:absolute;top:10px;right:20px;color:#e26ba9;font-weight:bold;font-size:18px;">0</div>
+  </div>
+  <button onclick="stopHamsterGame()">← Back</button>
+</div>
+
+<!-- 💖 Heart Catcher Game Section -->
+<div id="heartCatcher" class="section">
+  <h2 style="color:#e26ba9;">Catch My Hearts 💖</h2>
+  <p style="color:#c70059;">Move with arrow keys or click/touch to catch falling hearts!</p>
+  <canvas id="heartCanvas" width="350" height="400"></canvas>
+  <div id="heartScore">Score: 0 💕</div>
+  <div id="heartLives" style="color:#c70059;font-weight:bold;font-size:1.2rem;">Lives: ❤️❤️❤️</div>
+  <button onclick="stopHeartCatcher()">← Back</button>
+</div>
+
+<!-- 🧠 Memory Game Section -->
+<div id="memoryGame" class="section">
+  <h2 style="color:#e26ba9;">Our Memory Game 🧠</h2>
+  <p style="color:#c70059;">Match the pairs of love emojis!</p>
+  <div id="memoryStats">
+    <div>Moves: <span id="moves">0</span></div>
+    <div>Pairs: <span id="pairs">0</span>/8</div>
+    <div>Time: <span id="timer">0</span>s</div>
+  </div>
+  <div id="memoryGrid"></div>
+  <div id="memoryMessage" style="font-size:1.5rem;color:#c70059;font-weight:bold;margin-top:15px;display:none;">
+    Congratulations! You won my heart! 💕
+  </div>
+  <button onclick="restartMemoryGame()">New Game</button>
+  <button onclick="stopMemoryGame()">← Back</button>
+</div>
+<!-- 📅 Calendar Section -->
 <div id="calendar" class="section">
-  <h2>Our Memory Calendar 📅</h2>
-  <p>(You can customize this month by month!)</p>
+  <h2>Our Shared Calendar 📅</h2>
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button class="calendar-nav" onclick="changeMonth(-1)">← Previous</button>
+      <h3 class="calendar-title" id="calendar-title">January 2025</h3>
+      <button class="calendar-nav" onclick="changeMonth(1)">Next →</button>
+    </div>
+    <div class="calendar-grid" id="calendar-grid">
+      <!-- Calendar days will be populated by JavaScript -->
+    </div>
+    
+    <!-- Add Event Form -->
+    <div id="event-form" class="event-form" style="display: none;">
+      <h3>Add New Event</h3>
+      <input type="text" id="event-title" placeholder="Event Title" required>
+      <input type="datetime-local" id="event-datetime" required>
+      <textarea id="event-description" placeholder="Description (optional)" rows="3"></textarea>
+      <input type="text" id="event-location" placeholder="Location (optional)">
+      <div style="margin-top: 15px;">
+        <button onclick="saveEvent()">Save Event</button>
+        <button class="cancel" onclick="cancelEvent()" style="margin-left: 10px;">Cancel</button>
+      </div>
+    </div>
+    
+    <!-- Today's Events -->
+    <div class="events-list" id="today-events">
+      <h3>Today's Events</h3>
+      <div id="today-events-list"></div>
+    </div>
+  </div>
+  <br />
   <button onclick="showSection('menu')">← Back</button>
 </div>
-
-<!-- 🎶 Songs -->
-<div id="songs" class="section">
-  <h2>Our Songs 🎶</h2>
-  <p>(You can embed a Spotify playlist here)</p>
+<!-- 🎮 Tic-Tac-Toe Game Section -->
+<div id="tictactoeGame" class="section">
+  <h2 style="color:#e26ba9;">Pastel XO ❌⭕</h2>
+  <div id="tictactoeBoard" style="display: grid; grid-template-columns: repeat(3, 1fr); 
+      gap: 10px; width: 300px; height: 300px; margin: 0 auto;">
+    <!-- Cells will be added by JavaScript -->
+  </div>
+  <p id="tictactoeStatus" style="font-weight:bold;color:#c70059;margin-top:10px;">Player X's turn</p>
+  <p id="tictactoeScore" style="font-weight:bold;color:#c70059;">Score - X: 0 | O: 0 | Draws: 0</p>
+  <button onclick="resetTictactoe()">New Game</button>
   <button onclick="showSection('menu')">← Back</button>
 </div>
-
 <script>
-  // Typing effect
-  function typeText(id, text, speed = 30) {
-    let i = 0;
-    const el = document.getElementById(id);
-    el.innerHTML = '';
-    function type() {
-      if (i < text.length) {
-        el.innerHTML += text.charAt(i);
-        i++;
-        setTimeout(type, speed);
+// Reasons why I love you 💘
+const loveReasons = [
+  "Aandek ahsen 3inin f denya.",
+  "Your hugs feel like home.",
+  "Aandk ahsen bdan f denya.",
+  "You believe in me more than I believe in myself.",
+  "I feel safe ki nbda maak.",
+  "You see the best in me.",
+  "Aandk ahsen tabsima f denya.",
+  "L wa9t maak ytaada fisaa w mahleh.",
+  "Kol me nokhrj maak netwahchek akther.",
+  "kol chy fik yethab.",
+  "Dima tsmaani w tansahni.",
+  "Your kisses fix everything.",
+  "Hdithek dima mahleeh w funnyy.",
+  "You give me reasons to look forward to tomorrow.",
+  "Aaatitni l asbeb l kefya bch nra hayet maak."
+];
+
+function showLoveReason() {
+  const display = document.getElementById('reasonDisplay');
+  const reason = loveReasons[Math.floor(Math.random() * loveReasons.length)];
+  display.textContent = reason;
+}
+
+  /* ---------- Existing JS (intro, hearts, gallery, navigation) ---------- */
+  function typeText(id, text, speed = 30){ let i=0; const el=document.getElementById(id); el.innerHTML=''; (function type(){ if(i<text.length){ el.innerHTML += text.charAt(i); i++; setTimeout(type,speed);} })(); }
+  const stepTexts={text1:"You already saw your first gift.", text2:"Now it's time for your second gift...\nA tiramisu 🍰 made with love, just for you.", text3:"And the third one...\nA handcraft gift ✂️", text4:"And finally...\nThis website 💻 not as perfect as an engineer's work,\nbut made with all the love in the world 💗"};
+  function nextStep(stepId){ document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active')); document.getElementById(stepId).classList.add('active'); if(stepId.startsWith('step')){ typeText('text'+stepId.slice(-1), stepTexts['text'+stepId.slice(-1)]);} if(stepId!=='step1'){ localStorage.setItem('giftSeen','yes');}}
+  function showSection(id){ document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Flip‑cards
+    document.querySelectorAll('.flip-card').forEach(card=>card.addEventListener('click',()=>card.classList.toggle('flipped')));
+    // Hearts animation
+    const heartsContainer=document.querySelector('.hearts-background'); const colors=['pink','purple','lightpink','lavender']; const numHearts=30; const svgHeart=`<svg viewBox="0 0 32 29.6" xmlns="http://www.w3.org/2000/svg"><path d="M23.6,0c-3.4,0-6.4,2.6-7.6,5.7C14.8,2.6,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,7.9,16,21.2,16,21.2s16-13.3,16-21.2C32,3.8,28.2,0,23.6,0z"/></svg>`; for(let i=0;i<numHearts;i++){ const d=document.createElement('div'); d.classList.add('heart', colors[Math.floor(Math.random()*colors.length)]); d.style.left=Math.random()*100+'vw'; const size=15+Math.random()*15; d.style.width=size+'px'; d.style.height=size+'px'; const dur=10+Math.random()*15; d.style.animationDuration=dur+'s'; d.style.animationDelay=(Math.random()*dur)+'s'; d.innerHTML=svgHeart; heartsContainer.appendChild(d);}    
+    // Gift already seen?
+    if(localStorage.getItem('giftSeen')==='yes'){ showSection('menu'); } else { typeText('text1', stepTexts.text1); }
+
+    /* --------------- Quiz setup --------------- */
+    const quizQuestions = [
+      { question: "What is his/her favorite color?", answers: ["Red","Blue","Green","Yellow"] },
+      { question: "What is his/her favorite meal or dish?", answers: ["Pizza","Pasta","Sushi","Salad"] },
+      { question: "What is his/her favorite drink?", answers: ["Coffee","Tea","Juice","Water"] },
+      { question: "What is his/her favorite song right now?", answers: ["Shape of You","Blinding Lights","Levitating","Someone You Loved"] },
+      { question: "What is his/her comfort movie or series?", answers: ["Friends","Harry Potter","The Office","Stranger Things"] },
+      { question: "What is his/her dream travel destination?", answers: ["Paris","Maldives","Tokyo","New York"] },
+      { question: "What does he/she order the most at a café?", answers: ["Latte","Espresso","Cappuccino","Hot Chocolate"] },
+      { question: "What is his/her biggest fear?", answers: ["Heights","Spiders","Public speaking","Darkness"] },
+      { question: "What’s his/her favorite childhood memory?", answers: ["Family trips","Playing outside","Birthday parties","Learning to ride a bike"] },
+      { question: "What’s his/her go-to activity when sad or stressed?", answers: ["Listening to music","Watching movies","Exercising","Reading"] },
+      { question: "What’s one item he/she never leaves the house without?", answers: ["Phone","Wallet","Keys","Sunglasses"] },
+      { question: "What is his/her love language? (e.g., physical touch, words of affirmation…)", answers: ["Physical touch","Words of affirmation","Acts of service","Quality time"] },
+      { question: "How does he/she express jealousy?", answers: ["Getting quiet","Asking questions","Ignoring","Showing affection"] },
+      { question: "What was his/her first impression of you?", answers: ["Friendly","Funny","Shy","Confident"] },
+      { question: "Which of your shared memories means the most to him/her?", answers: ["First date","Trip together","Celebration","Random moments"] }
+    ];
+    let currentQuestionIndex = 0;
+    const userAnswers = [];
+    const quizForm = document.getElementById("quizForm");
+    const resultsSection = document.getElementById("summary");
+    const resultsList = document.getElementById("results");
+
+    function showQuestion(index){
+      quizForm.innerHTML=""; // Clear
+      const qData = quizQuestions[index];
+      const fs = document.createElement('fieldset'); fs.classList.add('visible');
+      const legend=document.createElement('legend'); legend.textContent=qData.question; fs.appendChild(legend);
+      qData.answers.forEach(ans=>{
+        const label=document.createElement('label');
+        const input=document.createElement('input'); input.type='radio'; input.name='answer'; input.value=ans; input.required=true;
+        label.appendChild(input); label.appendChild(document.createTextNode(ans)); fs.appendChild(label);
+      });
+      // Other option
+      const otherLabel=document.createElement('label');
+      const otherRadio=document.createElement('input'); otherRadio.type='radio'; otherRadio.name='answer'; otherRadio.value='Other'; otherRadio.required=true;
+      const otherText=document.createElement('input'); otherText.type='text'; otherText.name='otherAnswer'; otherText.placeholder='Your answer here...'; otherText.style.display='none';
+      otherLabel.appendChild(otherRadio); otherLabel.appendChild(document.createTextNode('Other')); otherLabel.appendChild(otherText); fs.appendChild(otherLabel);
+      otherRadio.addEventListener('change', ()=>{ otherText.style.display='inline-block'; otherText.required=true; otherText.focus();});
+      fs.querySelectorAll('input[type="radio"][name="answer"]').forEach(r=>{ if(r!==otherRadio){ r.addEventListener('change', ()=>{ otherText.style.display='none'; otherText.required=false; otherText.value='';}); } });
+      const btn=document.createElement('button');
+      if(index===quizQuestions.length-1){ btn.type='submit'; btn.textContent='Submit Answers'; } else {
+        btn.type='button'; btn.textContent='Next'; btn.addEventListener('click', ()=>{
+          const selected=quizForm.querySelector('input[name="answer"]:checked'); if(!selected){ alert('Please select an answer to continue.'); return; }
+          if(selected.value==='Other'){ if(!otherText.value.trim()){ alert('Please enter your answer.'); return;} userAnswers[index]=otherText.value.trim(); }
+          else { userAnswers[index]=selected.value; }
+          currentQuestionIndex++; showQuestion(currentQuestionIndex);
+        });
+      }
+      fs.appendChild(btn); quizForm.appendChild(fs);
+    }
+
+    quizForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const selected=quizForm.querySelector('input[name="answer"]:checked');
+      const otherText=quizForm.querySelector('input[name="otherAnswer"]');
+      if(!selected){ alert('Please select an answer before submitting.'); return; }
+      if(selected.value==='Other'){ if(!otherText.value.trim()){ alert('Please enter your answer.'); return;} userAnswers[currentQuestionIndex]=otherText.value.trim(); }
+      else { userAnswers[currentQuestionIndex]=selected.value; }
+      quizForm.style.display='none';
+      displayResults();
+    });
+
+    function displayResults(){
+      resultsList.innerHTML='';
+      quizQuestions.forEach((q,i)=>{ const li=document.createElement('li'); li.textContent=`${q.question} — Your answer: ${userAnswers[i] || 'No answer'}`; resultsList.appendChild(li); });
+      resultsSection.style.display='block';
+    }
+
+    function startQuiz(){ currentQuestionIndex=0; userAnswers.length=0; resultsSection.style.display='none'; quizForm.style.display='block'; showQuestion(currentQuestionIndex);}    
+    document.querySelector("button[onclick=\"showSection('quiz')\"]").addEventListener('click', ()=>{ startQuiz(); });
+
+    /* --------------- Puzzle setup --------------- */
+    document.getElementById('puzzleBtn').addEventListener('click', ()=>{ initPuzzle(); });
+  }); // end DOMContentLoaded
+
+  /* --------------- Puzzle engine --------------- */
+  const gridSize = 3;
+  const pieceSize = 100; // px
+  const gap = 5;
+  const board = document.getElementById('puzzle-board');
+  const container = document.getElementById('pieces-container');
+  const message = document.getElementById('message');
+  let slots = {}; let pieces = []; let draggedPiece = null; let offsetX = 0; let offsetY = 0;
+
+  function initPuzzle(){
+    if(!board) return; // safety if not yet loaded
+    message.style.display='none';
+    board.innerHTML='';
+    container.innerHTML='';
+    slots={}; pieces=[];
+    // Create invisible drop zones
+    for(let y=0;y<gridSize;y++){
+      for(let x=0;x<gridSize;x++){
+        const dz=document.createElement('div'); dz.classList.add('drop-zone'); dz.style.left=(x*(pieceSize+gap))+'px'; dz.style.top=(y*(pieceSize+gap))+'px'; dz.style.width=pieceSize+'px'; dz.style.height=pieceSize+'px'; board.appendChild(dz); slots[`${x},${y}`]=null;
       }
     }
-    type();
+    const positions=[]; for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ positions.push({x,y}); } }
+    const shuffled=positions.slice().sort(()=>Math.random()-0.5);
+    shuffled.forEach((pos,i)=>{
+      const piece=document.createElement('div'); piece.classList.add('piece'); piece.id='piece-'+i;
+      piece.style.backgroundPosition=`-${pos.x*pieceSize}px -${pos.y*pieceSize}px`;
+      piece.style.backgroundSize=`${gridSize*pieceSize}px ${gridSize*pieceSize}px`;
+      piece.dataset.correctX=pos.x; piece.dataset.correctY=pos.y; piece.dataset.slot='outside';
+      piece.style.position='relative'; container.appendChild(piece); pieces.push(piece);
+      piece.addEventListener('mousedown', startDrag); piece.addEventListener('touchstart', startDrag, {passive:false});
+    });
   }
 
-  // Steps text
-  const stepTexts = {
-    text1: "You already saw your first gift...\nThe watch ⌚ — something you'll wear every day, and think of me.",
-    text2: "Now it's time for your second gift...\nA handmade tiramisu 🍰 — made with love, just for you.",
-    text3: "And the third one...\nA handcraft gift ✂️ — follow the instructions (you have to scratch the first page...)",
-    text4: "And finally...\nThis website 💻 — not as perfect as an engineer's work,\nbut made with all the love in the world 💗"
+  function startDrag(e){ e.preventDefault(); draggedPiece=e.target; draggedPiece.classList.add('dragging'); draggedPiece.style.zIndex=1000; const rect=draggedPiece.getBoundingClientRect();
+    if(e.type==='touchstart'){ offsetX=e.touches[0].clientX-rect.left; offsetY=e.touches[0].clientY-rect.top; window.addEventListener('touchmove', dragMove,{passive:false}); window.addEventListener('touchend', endDrag); }
+    else { offsetX=e.clientX-rect.left; offsetY=e.clientY-rect.top; window.addEventListener('mousemove', dragMove); window.addEventListener('mouseup', endDrag); }
+  }
+  function dragMove(e){ e.preventDefault(); let clientX, clientY; if(e.type==='touchmove'){ clientX=e.touches[0].clientX; clientY=e.touches[0].clientY; } else { clientX=e.clientX; clientY=e.clientY; }
+    draggedPiece.style.position='fixed'; draggedPiece.style.left=(clientX-offsetX)+'px'; draggedPiece.style.top=(clientY-offsetY)+'px'; highlightClosestSlot(clientX,clientY);
+  }
+  function highlightClosestSlot(clientX, clientY){ const boardRect=board.getBoundingClientRect(); let closest=null; let min=Infinity; for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const sx=boardRect.left+x*(pieceSize+gap)+pieceSize/2; const sy=boardRect.top+y*(pieceSize+gap)+pieceSize/2; const d=Math.hypot(clientX-sx, clientY-sy); if(d<min){ min=d; closest={x,y,d}; } } }
+    document.querySelectorAll('#puzzle .drop-zone').forEach(dz=>dz.classList.remove('highlight'));
+    if(min<80&&closest){ const index=closest.y*gridSize+closest.x; board.children[index].classList.add('highlight'); }
+  }
+  function endDrag(e){ e.preventDefault(); if(!draggedPiece) return; let clientX, clientY; if(e.type==='touchend'){ clientX=e.changedTouches[0].clientX; clientY=e.changedTouches[0].clientY; window.removeEventListener('touchmove', dragMove); window.removeEventListener('touchend', endDrag); } else { clientX=e.clientX; clientY=e.clientY; window.removeEventListener('mousemove', dragMove); window.removeEventListener('mouseup', endDrag); }
+    document.querySelectorAll('#puzzle .drop-zone').forEach(dz=>dz.classList.remove('highlight'));
+    const boardRect=board.getBoundingClientRect(); let closest=null; let min=Infinity; for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const sx=boardRect.left+x*(pieceSize+gap)+pieceSize/2; const sy=boardRect.top+y*(pieceSize+gap)+pieceSize/2; const d=Math.hypot(clientX-sx, clientY-sy); if(d<min){ min=d; closest={x,y,d}; } } }
+    if(closest&&min<100){ const slotKey=`${closest.x},${closest.y}`; if(slots[slotKey] && slots[slotKey]!==draggedPiece.id){ resetPiecePosition(draggedPiece); } else { if(draggedPiece.dataset.slot!=='outside'){ slots[draggedPiece.dataset.slot]=null; } slots[slotKey]=draggedPiece.id; draggedPiece.dataset.slot=slotKey; draggedPiece.style.position='absolute'; draggedPiece.style.left=(closest.x*(pieceSize+gap))+'px'; draggedPiece.style.top=(closest.y*(pieceSize+gap))+'px'; draggedPiece.style.zIndex=0; board.appendChild(draggedPiece); } }
+    else { if(draggedPiece.dataset.slot!=='outside'){ slots[draggedPiece.dataset.slot]=null; draggedPiece.dataset.slot='outside'; } container.appendChild(draggedPiece); draggedPiece.style.position='relative'; draggedPiece.style.left='auto'; draggedPiece.style.top='auto'; draggedPiece.style.zIndex=0; }
+    draggedPiece.classList.remove('dragging'); draggedPiece=null; checkCompletion();
+  }
+  function resetPiecePosition(piece){ if(piece.dataset.slot==='outside'){ piece.style.position='relative'; piece.style.left='auto'; piece.style.top='auto'; piece.style.zIndex=0; container.appendChild(piece);} else { const [x,y]=piece.dataset.slot.split(',').map(Number); piece.style.position='absolute'; piece.style.left=(x*(pieceSize+gap))+'px'; piece.style.top=(y*(pieceSize+gap))+'px'; piece.style.zIndex=0; board.appendChild(piece);} }
+  function checkCompletion(){ for(let y=0;y<gridSize;y++){ for(let x=0;x<gridSize;x++){ const key=`${x},${y}`; const id=slots[key]; if(!id) return false; const piece=document.getElementById(id); if(!piece) return false; if(+piece.dataset.correctX!==x||+piece.dataset.correctY!==y) return false; } } message.style.display='block'; return true; }
+  window.addEventListener('resize', ()=>{ pieces.forEach(p=> resetPiecePosition(p)); });
+// SNAKE GAME 💕
+let snakeCanvas, ctx, snake, food, dx, dy, snakeInterval, score;
+
+function startSnake() {
+  showSection('snakeGame');
+  snakeCanvas = document.getElementById('snakeCanvas');
+  ctx = snakeCanvas.getContext('2d');
+  document.addEventListener("keydown", changeDirection);
+  resetSnake();
+  snakeInterval = setInterval(updateSnake, 150);
+}
+
+function stopSnake() {
+  clearInterval(snakeInterval);
+  document.removeEventListener("keydown", changeDirection);
+  showSection('menu');
+}
+
+function resetSnake() {
+  score = 0;
+  document.getElementById("snakeScore").textContent = "Score: 0";
+  snake = [{x: 150, y: 150}];
+  dx = 15; dy = 0;
+  placeFood();
+}
+
+function updateSnake() {
+  const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+  if (head.x < 0 || head.y < 0 || head.x >= 300 || head.y >= 300 || snake.some(p => p.x === head.x && p.y === head.y)) {
+    stopSnake(); return alert("Oops! Game over 💔");
+  }
+  snake.unshift(head);
+  if (head.x === food.x && head.y === food.y) {
+    score++; document.getElementById("snakeScore").textContent = "Score: " + score;
+    placeFood();
+  } else { snake.pop(); }
+  drawSnake();
+}
+
+function drawSnake() {
+  ctx.fillStyle = "#ffe6f0";
+  ctx.fillRect(0, 0, 300, 300);
+  ctx.fillStyle = "#ff80a1";
+  snake.forEach(p => ctx.fillRect(p.x, p.y, 13, 13));
+  ctx.fillStyle = "#cdb4db";
+  ctx.fillRect(food.x, food.y, 13, 13);
+}
+
+function changeDirection(e) {
+  if (e.key === "ArrowUp" && dy === 0) { 
+    e.preventDefault();
+    dx = 0; 
+    dy = -15; 
+  }
+  else if (e.key === "ArrowDown" && dy === 0) { 
+    e.preventDefault();
+    dx = 0; 
+    dy = 15; 
+  }
+  else if (e.key === "ArrowLeft" && dx === 0) { 
+    e.preventDefault();
+    dx = -15; 
+    dy = 0; 
+  }
+  else if (e.key === "ArrowRight" && dx === 0) { 
+    e.preventDefault();
+    dx = 15; 
+    dy = 0; 
+  }
+}function placeFood() {
+  const x = Math.floor(Math.random() * 20) * 15;
+  const y = Math.floor(Math.random() * 20) * 15;
+  food = {x, y};
+}
+// Global variables for hamster game
+let hamsterGameInterval;
+let cactusInterval;
+let animationFrame;
+let gameActive = false;
+let handleKeyDown, handleTouch; // Declare these to remove later
+
+function startHamsterGame() {
+  if (gameActive) return;
+  gameActive = true;
+  showSection('hamsterGame');
+  
+  // Game elements
+  const hamster = document.getElementById('hamster');
+  const game = document.getElementById('game');
+  const scoreEl = document.getElementById('score');
+  
+  // Game variables
+  let score = 0;
+  let isJumping = false;
+  let gameOver = false;
+  let cactusSpeed = 9;
+  let cactuses = [];
+  let gravity = 0.51;
+  let position = 0;
+  let velocity = 0;
+  const jumpForce = -9;
+
+  // Reset score and clear old cactuses
+  scoreEl.textContent = '0';
+  document.querySelectorAll('.cactus').forEach(c => c.remove());
+  cactuses = [];
+
+  // Focus the game for keyboard input
+  game.focus();
+
+  function jump() {
+    if (!isJumping && !gameOver) {
+      isJumping = true;
+      velocity = jumpForce;
+    }
+  }
+
+  function createCactus() {
+    if (gameOver) return;
+    const cactus = document.createElement('div');
+    cactus.classList.add('cactus');
+    cactus.style.position = 'absolute';
+    cactus.style.bottom = '30px';
+    cactus.style.width = '25px';
+    cactus.style.height = '50px';
+    cactus.style.backgroundColor = '#a2d2a2';
+    cactus.style.borderRadius = '10px';
+    cactus.style.right = '-25px';
+    game.appendChild(cactus);
+    cactuses.push(cactus);
+  }
+
+  function update() {
+    if (gameOver) return;
+
+    // Apply gravity
+    velocity += gravity;
+    position += velocity;
+
+    // Ground collision
+    if (position > 0) {
+      position = 0;
+      velocity = 0;
+      isJumping = false;
+    }
+
+    // Update hamster position
+    hamster.style.bottom = (30 - position) + 'px';
+
+    // Move cactuses
+    cactuses.forEach((cactus, index) => {
+      let currentPos = parseInt(cactus.style.right);
+      cactus.style.right = (currentPos + cactusSpeed) + 'px';
+
+      // Check collision
+      const hamsterRect = hamster.getBoundingClientRect();
+      const cactusRect = cactus.getBoundingClientRect();
+      
+      if (
+        hamsterRect.right > cactusRect.left &&
+        hamsterRect.left < cactusRect.right &&
+        hamsterRect.bottom > cactusRect.top &&
+        hamsterRect.top < cactusRect.bottom
+      ) {
+        endGame();
+      }
+
+      // Remove off-screen cactuses
+      if (currentPos > game.offsetWidth) {
+        cactus.remove();
+        cactuses.splice(index, 1);
+        score++;
+        scoreEl.textContent = score;
+        
+        // Increase speed every 5 points
+        if (score % 5 === 0) {
+          cactusSpeed += 0.5;
+        }
+      }
+    });
+
+    animationFrame = requestAnimationFrame(update);
+  }
+
+  function endGame() {
+    if (gameOver) return;
+    gameOver = true;
+    cancelAnimationFrame(animationFrame);
+    clearInterval(cactusInterval);
+    setTimeout(() => {
+      alert('Game Over! Score: ' + score);
+      stopHamsterGame();
+    }, 100);
+  }
+
+  // Event listeners
+  handleKeyDown = function(e) {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      jump();
+    }
   };
 
-  // Show step
-  function nextStep(stepId) {
-    const sections = document.querySelectorAll(".section");
-    sections.forEach(sec => sec.classList.remove("active"));
-    document.getElementById(stepId).classList.add("active");
-    if (stepId.startsWith("step")) {
-      typeText("text" + stepId.slice(-1), stepTexts["text" + stepId.slice(-1)]);
+  handleTouch = function(e) {
+    e.preventDefault();
+    jump();
+  };
+
+  game.addEventListener('keydown', handleKeyDown);
+  game.addEventListener('touchstart', handleTouch);
+
+  // Start the game
+  game.focus();
+  animationFrame = requestAnimationFrame(update);
+  cactusInterval = setInterval(createCactus, 2000);
+}
+
+function stopHamsterGame() {
+  gameActive = false;
+  const game = document.getElementById('game');
+  
+  // Remove event listeners
+  game.removeEventListener('keydown', handleKeyDown);
+  game.removeEventListener('touchstart', handleTouch);
+  
+  // Clear intervals
+  cancelAnimationFrame(animationFrame);
+  clearInterval(cactusInterval);
+  
+  // Reset hamster position
+  document.getElementById('hamster').style.bottom = '30px';
+  
+  // Remove all cactuses
+  document.querySelectorAll('.cactus').forEach(c => c.remove());
+  
+  showSection('menu');
+}
+// HEART CATCHER GAME 💖
+let heartCanvas, heartCtx, heartCatcherInterval, heartAnimationFrame;
+let heartPlayer, hearts, heartScore, heartLives;
+let heartKeys = {};
+
+function startHeartCatcher() {
+  showSection('heartCatcher');
+  heartCanvas = document.getElementById('heartCanvas');
+  heartCtx = heartCanvas.getContext('2d');
+  
+  // Game variables
+  heartScore = 0;
+  heartLives = 3;
+  hearts = [];
+  heartPlayer = {
+    x: heartCanvas.width / 2 - 25,
+    y: heartCanvas.height - 60,
+    width: 50,
+    height: 40,
+    speed: 6
+  };
+  
+  // Update displays
+  document.getElementById('heartScore').textContent = 'Score: 0 💕';
+  document.getElementById('heartLives').textContent = 'Lives: ❤️❤️❤️';
+  
+  // Event listeners
+  document.addEventListener('keydown', handleHeartKeyDown);
+  document.addEventListener('keyup', handleHeartKeyUp);
+  heartCanvas.addEventListener('click', handleHeartClick);
+  heartCanvas.addEventListener('touchstart', handleHeartTouch);
+  
+  // Start game loop
+  heartCatcherInterval = setInterval(spawnHeart, 1000);
+  heartAnimationFrame = requestAnimationFrame(updateHeartCatcher);
+}
+
+function stopHeartCatcher() {
+  clearInterval(heartCatcherInterval);
+  cancelAnimationFrame(heartAnimationFrame);
+  
+  // Remove event listeners
+  document.removeEventListener('keydown', handleHeartKeyDown);
+  document.removeEventListener('keyup', handleHeartKeyUp);
+  heartCanvas.removeEventListener('click', handleHeartClick);
+  heartCanvas.removeEventListener('touchstart', handleHeartTouch);
+  
+  showSection('menu');
+}
+
+function handleHeartKeyDown(e) {
+  heartKeys[e.key] = true;
+}
+
+function handleHeartKeyUp(e) {
+  heartKeys[e.key] = false;
+}
+
+function handleHeartClick(e) {
+  const rect = heartCanvas.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  heartPlayer.x = clickX - heartPlayer.width / 2;
+  if (heartPlayer.x < 0) heartPlayer.x = 0;
+  if (heartPlayer.x > heartCanvas.width - heartPlayer.width) heartPlayer.x = heartCanvas.width - heartPlayer.width;
+}
+
+function handleHeartTouch(e) {
+  e.preventDefault();
+  const rect = heartCanvas.getBoundingClientRect();
+  const touchX = e.touches[0].clientX - rect.left;
+  heartPlayer.x = touchX - heartPlayer.width / 2;
+  if (heartPlayer.x < 0) heartPlayer.x = 0;
+  if (heartPlayer.x > heartCanvas.width - heartPlayer.width) heartPlayer.x = heartCanvas.width - heartPlayer.width;
+}
+
+function spawnHeart() {
+  const heart = {
+    x: Math.random() * (heartCanvas.width - 30),
+    y: -30,
+    width: 30,
+    height: 30,
+    speed: 2 + Math.random() * 3,
+    color: ['#ff69b4', '#ff1493', '#ffc0cb', '#da70d6'][Math.floor(Math.random() * 4)]
+  };
+  hearts.push(heart);
+}
+
+function updateHeartCatcher() {
+  // Clear canvas
+  heartCtx.fillStyle = '#ffe6f0';
+  heartCtx.fillRect(0, 0, heartCanvas.width, heartCanvas.height);
+  
+  // Handle input
+  if (heartKeys['ArrowLeft'] && heartPlayer.x > 0) {
+    heartPlayer.x -= heartPlayer.speed;
+  }
+  if (heartKeys['ArrowRight'] && heartPlayer.x < heartCanvas.width - heartPlayer.width) {
+    heartPlayer.x += heartPlayer.speed;
+  }
+  
+  // Draw player (basket)
+  heartCtx.fillStyle = '#d6a4e0';
+  heartCtx.fillRect(heartPlayer.x, heartPlayer.y, heartPlayer.width, heartPlayer.height);
+  heartCtx.fillStyle = '#c3588f';
+  heartCtx.fillRect(heartPlayer.x + 5, heartPlayer.y + 5, heartPlayer.width - 10, heartPlayer.height - 10);
+  
+  // Update and draw hearts
+  for (let i = hearts.length - 1; i >= 0; i--) {
+    const heart = hearts[i];
+    heart.y += heart.speed;
+    
+    // Draw heart
+    heartCtx.fillStyle = heart.color;
+    heartCtx.font = '25px Arial';
+    heartCtx.fillText('💖', heart.x, heart.y + 25);
+    
+    // Check collision with player
+    if (heart.x < heartPlayer.x + heartPlayer.width &&
+        heart.x + heart.width > heartPlayer.x &&
+        heart.y < heartPlayer.y + heartPlayer.height &&
+        heart.y + heart.height > heartPlayer.y) {
+      // Caught heart
+      heartScore++;
+      document.getElementById('heartScore').textContent = `Score: ${heartScore} 💕`;
+      hearts.splice(i, 1);
+      continue;
     }
-    if (stepId !== "step1") {
-      localStorage.setItem("giftSeen", "yes");
+    
+    // Remove hearts that fell off screen
+    if (heart.y > heartCanvas.height) {
+      hearts.splice(i, 1);
+      heartLives--;
+      updateHeartLives();
+      
+      if (heartLives <= 0) {
+        alert(`Game Over! Final Score: ${heartScore} 💔`);
+        stopHeartCatcher();
+        return;
+      }
     }
   }
+  
+  heartAnimationFrame = requestAnimationFrame(updateHeartCatcher);
+}
 
-  // Menu switching
-  function showSection(sectionId) {
-    const sections = document.querySelectorAll(".section");
-    sections.forEach(sec => sec.classList.remove("active"));
-    document.getElementById(sectionId).classList.add("active");
+function updateHeartLives() {
+  const livesText = '❤️'.repeat(heartLives);
+  document.getElementById('heartLives').textContent = `Lives: ${livesText}`;
+}
+
+// MEMORY GAME 🧠
+let memoryCards = [];
+let memoryFlipped = [];
+let memoryMatched = [];
+let memoryMoves = 0;
+let memoryPairs = 0;
+let memoryTimer = 0;
+let memoryTimerInterval;
+let memoryGameActive = false;
+
+const memoryEmojis = ['💖', '💕', '💗', '💓', '💘', '💝', '💞', '💟'];
+
+function startMemoryGame() {
+  showSection('memoryGame');
+  initMemoryGame();
+}
+
+function stopMemoryGame() {
+  clearInterval(memoryTimerInterval);
+  memoryGameActive = false;
+  showSection('menu');
+}
+
+function initMemoryGame() {
+  memoryGameActive = true;
+  memoryFlipped = [];
+  memoryMatched = [];
+  memoryMoves = 0;
+  memoryPairs = 0;
+  memoryTimer = 0;
+  
+  // Create pairs of emojis
+  const gameEmojis = [...memoryEmojis, ...memoryEmojis];
+  gameEmojis.sort(() => Math.random() - 0.5);
+  
+  // Create grid
+  const grid = document.getElementById('memoryGrid');
+  grid.innerHTML = '';
+  
+  gameEmojis.forEach((emoji, index) => {
+    const card = document.createElement('div');
+    card.classList.add('memory-card');
+    card.dataset.index = index;
+    card.dataset.emoji = emoji;
+    
+    const cardBack = document.createElement('div');
+    cardBack.classList.add('card-back');
+    cardBack.textContent = '❓';
+    
+    const cardFront = document.createElement('div');
+    cardFront.classList.add('card-front');
+    cardFront.textContent = emoji;
+    
+    card.appendChild(cardBack);
+    card.appendChild(cardFront);
+    
+    card.addEventListener('click', flipMemoryCard);
+    grid.appendChild(card);
+  });
+  
+  // Reset displays
+  document.getElementById('moves').textContent = '0';
+  document.getElementById('pairs').textContent = '0';
+  document.getElementById('timer').textContent = '0';
+  document.getElementById('memoryMessage').style.display = 'none';
+  
+  // Start timer
+  memoryTimerInterval = setInterval(updateMemoryTimer, 1000);
+}
+
+function flipMemoryCard(e) {
+  if (!memoryGameActive) return;
+  
+  const card = e.currentTarget;
+  const index = parseInt(card.dataset.index);
+  
+  // Can't flip if already flipped or matched
+  if (memoryFlipped.includes(index) || memoryMatched.includes(index)) return;
+  
+  // Can't flip more than 2 cards
+  if (memoryFlipped.length >= 2) return;
+  
+  // Flip the card
+  card.classList.add('flipped');
+  memoryFlipped.push(index);
+  
+  // Check if two cards are flipped
+  if (memoryFlipped.length === 2) {
+    memoryMoves++;
+    document.getElementById('moves').textContent = memoryMoves;
+    
+    const card1 = document.querySelector(`[data-index="${memoryFlipped[0]}"]`);
+    const card2 = document.querySelector(`[data-index="${memoryFlipped[1]}"]`);
+    
+    if (card1.dataset.emoji === card2.dataset.emoji) {
+      // Match found!
+      setTimeout(() => {
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        memoryMatched.push(memoryFlipped[0], memoryFlipped[1]);
+        memoryFlipped = [];
+        memoryPairs++;
+        document.getElementById('pairs').textContent = memoryPairs;
+        
+        // Check if game is complete
+        if (memoryPairs === 8) {
+          clearInterval(memoryTimerInterval);
+          memoryGameActive = false;
+          document.getElementById('memoryMessage').style.display = 'block';
+        }
+      }, 500);
+    } else {
+      // No match
+      setTimeout(() => {
+        card1.classList.remove('flipped');
+        card2.classList.remove('flipped');
+        memoryFlipped = [];
+      }, 1000);
+    }
+  }
+}
+
+function updateMemoryTimer() {
+  memoryTimer++;
+  document.getElementById('timer').textContent = memoryTimer;
+}
+
+function restartMemoryGame() {
+  clearInterval(memoryTimerInterval);
+  initMemoryGame();
+}
+/* ---------- CALENDAR FUNCTIONALITY ---------- */
+// Calendar state
+let currentDate = new Date();
+let selectedDate = null;
+let events = [];
+let editingEventId = null; // Track which event we're editing
+
+// Calendar configuration
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+// Initialize calendar
+function initCalendar() {
+  // Make sure currentDate is a valid Date object
+  if (!(currentDate instanceof Date) || isNaN(currentDate)) {
+    currentDate = new Date();
+  }
+  
+  loadEvents();
+  renderCalendar();
+  updateTodayEvents();
+}
+
+// Load events from localStorage
+function loadEvents() {
+  try {
+    const savedEvents = localStorage.getItem('coupleCalendarEvents');
+    if (savedEvents) {
+      events = JSON.parse(savedEvents);
+      console.log('Loaded events from localStorage:', events);
+    } else {
+      // Add sample events if this is the first time
+      const today = new Date();
+      const nextWeek = new Date();
+      nextWeek.setDate(today.getDate() + 7);
+      
+      events = [
+        {
+          id: 1,
+          title: "Date Night",
+          date: today.toISOString().split('T')[0],
+          time: "19:00",
+          description: "Romantic dinner at our favorite place",
+          location: "The Bistro"
+        },
+        {
+          id: 2,
+          title: "Movie Night",
+          date: nextWeek.toISOString().split('T')[0],
+          time: "20:00",
+          description: "Watch our favorite movie together",
+          location: "Home"
+        }
+      ];
+      saveEvents();
+      console.log('Created sample events and saved to localStorage');
+    }
+  } catch (error) {
+    console.error('Error loading events:', error);
+    events = [];
+  }
+}
+
+// Save events to localStorage
+function saveEvents() {
+  try {
+    localStorage.setItem('coupleCalendarEvents', JSON.stringify(events));
+    console.log('Events saved to localStorage:', events);
+    return true;
+  } catch (error) {
+    console.error('Error saving events:', error);
+    return false;
+  }
+}
+
+// Get events for a specific date
+function getEventsForDate(year, month, day) {
+  const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+  return events.filter(event => event.date === dateStr);
+}
+
+// Render the calendar grid
+function renderCalendar() {
+  const calendarGrid = document.getElementById('calendar-grid');
+  const calendarTitle = document.getElementById('calendar-title');
+  
+  if (!calendarGrid || !calendarTitle) {
+    console.error('Calendar elements not found');
+    return;
   }
 
-  // Flip card on click (for touch devices)
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.flip-card').forEach(card => {
-      card.addEventListener('click', () => {
-        card.classList.toggle('flipped');
-      });
-    });
+  // Clear previous calendar
+  calendarGrid.innerHTML = '';
+  
+  // Add day headers
+  dayNames.forEach(day => {
+    const dayHeader = document.createElement('div');
+    dayHeader.className = 'calendar-day-header';
+    dayHeader.textContent = day;
+    calendarGrid.appendChild(dayHeader);
   });
 
-  // On load: if already seen, skip intro
-  window.onload = function () {
-    if (localStorage.getItem("giftSeen") === "yes") {
-      showSection("menu");
-    } else {
-      typeText("text1", stepTexts.text1);
-    }
-  };
-</script>
+  // Get first day of month and number of days
+  const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  const daysInMonth = lastDay.getDate();
+  const startingDayOfWeek = firstDay.getDay();
 
+  // Update title
+  calendarTitle.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
+  // Add empty cells for days before month starts
+  for (let i = 0; i < startingDayOfWeek; i++) {
+    const emptyDay = document.createElement('div');
+    emptyDay.className = 'calendar-day other-month';
+    calendarGrid.appendChild(emptyDay);
+  }
+
+  // Add days of the month
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dayElement = document.createElement('div');
+    dayElement.className = 'calendar-day';
+    
+    // Check if it's today
+    const today = new Date();
+    if (currentDate.getFullYear() === today.getFullYear() &&
+        currentDate.getMonth() === today.getMonth() &&
+        day === today.getDate()) {
+      dayElement.classList.add('today');
+    }
+    
+    // Check if it's selected
+    if (selectedDate &&
+        selectedDate.getFullYear() === currentDate.getFullYear() &&
+        selectedDate.getMonth() === currentDate.getMonth() &&
+        selectedDate.getDate() === day) {
+      dayElement.classList.add('selected');
+    }
+    
+    // Add day number
+    const dayNumber = document.createElement('div');
+    dayNumber.className = 'day-number';
+    dayNumber.textContent = day;
+    dayElement.appendChild(dayNumber);
+    
+    // Add events for this day
+    const dayEvents = getEventsForDate(currentDate.getFullYear(), currentDate.getMonth(), day);
+    dayEvents.forEach(event => {
+      const eventElement = document.createElement('div');
+      eventElement.className = 'event-item';
+      eventElement.textContent = event.title;
+      eventElement.title = `${event.time} - ${event.title}\nClick to edit or delete`;
+      
+      // Add click event to show event options
+      eventElement.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent day selection
+        showEventOptions(event.id);
+      });
+      
+      dayElement.appendChild(eventElement);
+    });
+    
+    // Add click event to select date (only if not clicking on an event)
+    dayElement.addEventListener('click', () => {
+      selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+      renderCalendar();
+      showEventForm();
+    });
+    
+    calendarGrid.appendChild(dayElement);
+  }
+  
+  // Add empty cells for days after month ends
+  const totalCells = calendarGrid.children.length - 7; // Subtract header cells
+  const remainingCells = 35 - totalCells; // 5 rows * 7 days = 35 cells
+  for (let i = 0; i < remainingCells; i++) {
+    const emptyDay = document.createElement('div');
+    emptyDay.className = 'calendar-day other-month';
+    calendarGrid.appendChild(emptyDay);
+  }
+}
+
+// Update today's events
+function updateTodayEvents() {
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const todayEvents = events.filter(event => event.date === todayStr);
+  
+  const todayEventsList = document.getElementById('today-events-list');
+  if (!todayEventsList) return;
+  
+  todayEventsList.innerHTML = '';
+  
+  if (todayEvents.length === 0) {
+    todayEventsList.innerHTML = '<p>No events scheduled for today</p>';
+    return;
+  }
+  
+  todayEvents.forEach(event => {
+    const eventElement = document.createElement('div');
+    eventElement.className = 'event-detail';
+    eventElement.innerHTML = `
+      <h4>${event.title}</h4>
+      <p><strong>Time:</strong> ${event.time}</p>
+      ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
+      ${event.location ? `<p><strong>Location:</strong> ${event.location}</p>` : ''}
+      <button class="edit-event" onclick="editEvent(${event.id})">Edit</button>
+      <button class="delete-event" onclick="deleteEvent(${event.id})">Delete</button>
+    `;
+    todayEventsList.appendChild(eventElement);
+  });
+}
+
+// Edit event
+function editEvent(eventId) {
+  const event = events.find(e => e.id === eventId);
+  if (!event) {
+    console.error('Event not found for editing:', eventId);
+    return;
+  }
+  
+  console.log('Editing event:', event);
+  editingEventId = eventId;
+  
+  // Fill form with existing event data
+  document.getElementById('event-title').value = event.title;
+  document.getElementById('event-datetime').value = event.date + 'T' + event.time;
+  document.getElementById('event-description').value = event.description || '';
+  document.getElementById('event-location').value = event.location || '';
+  
+  // Update form title and button text
+  const formTitle = document.querySelector('#event-form h3');
+  if (formTitle) {
+    formTitle.textContent = 'Edit Event';
+  }
+  
+  const saveButton = document.querySelector('#event-form button[onclick="saveEvent()"]');
+  if (saveButton) {
+    saveButton.textContent = 'Update Event';
+  }
+  
+  // Show the form
+  document.getElementById('event-form').style.display = 'block';
+  
+  console.log('Form populated with event data, editingEventId set to:', editingEventId);
+}
+
+// Show event form
+function showEventForm() {
+  const eventForm = document.getElementById('event-form');
+  const eventDateTime = document.getElementById('event-datetime');
+  
+  // Reset editing state
+  editingEventId = null;
+  
+  // Update form title and button text
+  const formTitle = document.querySelector('#event-form h3');
+  if (formTitle) {
+    formTitle.textContent = 'Add New Event';
+  }
+  
+  const saveButton = document.querySelector('#event-form button[onclick="saveEvent()"]');
+  if (saveButton) {
+    saveButton.textContent = 'Save Event';
+  }
+  
+  if (selectedDate) {
+    // Set default date to selected date
+    const dateStr = selectedDate.toISOString().slice(0, 16);
+    eventDateTime.value = dateStr;
+  }
+  
+  eventForm.style.display = 'block';
+}
+
+// Hide event form
+function cancelEvent() {
+  document.getElementById('event-form').style.display = 'none';
+  document.getElementById('event-title').value = '';
+  document.getElementById('event-datetime').value = '';
+  document.getElementById('event-description').value = '';
+  document.getElementById('event-location').value = '';
+  editingEventId = null;
+  
+  console.log('Form cancelled, editingEventId reset');
+  
+  // Reset form title and button text
+  const formTitle = document.querySelector('#event-form h3');
+  if (formTitle) {
+    formTitle.textContent = 'Add New Event';
+  }
+  
+  const saveButton = document.querySelector('#event-form button[onclick="saveEvent()"]');
+  if (saveButton) {
+    saveButton.textContent = 'Save Event';
+  }
+}
+
+// Show event options (for events clicked in calendar grid)
+function showEventOptions(eventId) {
+  const event = events.find(e => e.id === eventId);
+  if (!event) return;
+  
+  // Create modal overlay
+  const modal = document.createElement('div');
+  modal.className = 'event-modal-overlay';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  `;
+  
+  // Create modal content
+  const modalContent = document.createElement('div');
+  modalContent.className = 'event-modal-content';
+  modalContent.style.cssText = `
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  `;
+  
+  modalContent.innerHTML = `
+    <h3>${event.title}</h3>
+    <p><strong>Date:</strong> ${event.date}</p>
+    <p><strong>Time:</strong> ${event.time}</p>
+    ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
+    ${event.location ? `<p><strong>Location:</strong> ${event.location}</p>` : ''}
+    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+      <button onclick="editEventFromModal(${event.id})" style="background: #FFD1DC; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Edit</button>
+      <button onclick="deleteEventFromModal(${event.id})" style="background: #C8A2C8
+; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Delete</button>
+      <button onclick="closeEventModal()" style="background: #ccc; color: black; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Close</button>
+    </div>
+  `;
+  
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+  
+  // Close modal when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeEventModal();
+    }
+  });
+}
+
+// Close event modal
+function closeEventModal() {
+  const modal = document.querySelector('.event-modal-overlay');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+// Edit event from modal
+function editEventFromModal(eventId) {
+  closeEventModal();
+  editEvent(eventId);
+}
+
+// Delete event from modal
+function deleteEventFromModal(eventId) {
+  closeEventModal();
+  deleteEvent(eventId);
+}
+
+// Delete event
+function deleteEvent(eventId) {
+  if (confirm('Are you sure you want to delete this event?')) {
+    events = events.filter(event => event.id !== eventId);
+    if (saveEvents()) {
+      renderCalendar();
+      updateTodayEvents();
+    }
+  }
+}
+
+// Initialize calendar when page loads
+document.addEventListener('DOMContentLoaded', initCalendar);
+
+// Make functions available globally
+window.changeMonth = function(delta) {
+  currentDate.setMonth(currentDate.getMonth() + delta);
+  renderCalendar();
+  updateTodayEvents();
+};
+
+window.saveEvent = function() {
+  const title = document.getElementById('event-title').value.trim();
+  const datetime = document.getElementById('event-datetime').value;
+  
+  if (!title || !datetime) {
+    alert('Please fill in the title and date/time fields.');
+    return;
+  }
+  
+  const eventDate = new Date(datetime);
+  const eventData = {
+    title: title,
+    date: eventDate.toISOString().split('T')[0],
+    time: eventDate.toTimeString().slice(0, 5),
+    description: document.getElementById('event-description').value.trim(),
+    location: document.getElementById('event-location').value.trim()
+  };
+  
+  if (editingEventId) {
+    // Update existing event
+    console.log('Updating event with ID:', editingEventId);
+    const eventIndex = events.findIndex(e => e.id === editingEventId);
+    if (eventIndex !== -1) {
+      // Keep the original ID and update all other fields
+      events[eventIndex] = { 
+        id: editingEventId,
+        ...eventData
+      };
+      console.log('Updated event:', events[eventIndex]);
+    } else {
+      console.error('Event not found for editing');
+      alert('Error: Event not found for editing.');
+      return;
+    }
+  } else {
+    // Create new event
+    const newEvent = {
+      id: Date.now(),
+      ...eventData
+    };
+    events.push(newEvent);
+    console.log('Created new event:', newEvent);
+  }
+  
+  // Save to localStorage and update display
+  if (saveEvents()) {
+    console.log('Events saved successfully');
+    renderCalendar();
+    updateTodayEvents();
+    cancelEvent();
+  } else {
+    alert('Failed to save event. Please try again.');
+  }
+};
+
+window.cancelEvent = cancelEvent;
+window.deleteEvent = deleteEvent;
+window.editEvent = editEvent;
+window.showEventOptions = showEventOptions;
+window.closeEventModal = closeEventModal;
+window.editEventFromModal = editEventFromModal;
+window.deleteEventFromModal = deleteEventFromModal;
+
+// Initialize calendar when calendar section is shown
+const calendarButton = document.querySelector("button[onclick=\"showSection('calendar')\"]");
+if (calendarButton) {
+  calendarButton.addEventListener('click', initCalendar);
+}
+// TIC-TAC-TOE GAME ❌⭕
+let tictactoeBoard, currentPlayer, gameState, scores;
+
+function startTictactoe() {
+  showSection('tictactoeGame');
+  tictactoeBoard = document.getElementById('tictactoeBoard');
+  tictactoeBoard.innerHTML = '';
+  
+  // Load saved scores or initialize
+  scores = JSON.parse(localStorage.getItem('tictactoeScores')) || { X: 0, O: 0, draws: 0 };
+  updateScoreDisplay();
+  
+  // Initialize game
+  currentPlayer = 'X';
+  gameState = ['', '', '', '', '', '', '', '', ''];
+  document.getElementById('tictactoeStatus').textContent = `Player ${currentPlayer}'s turn`;
+  
+  // Create board cells
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('tictactoe-cell');
+    cell.style.cssText = `
+      background-color: #ffe6f0;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: ${currentPlayer === 'X' ? '#ff80a1' : '#cdb4db'};
+    `;
+    cell.addEventListener('click', () => handleCellClick(i));
+    tictactoeBoard.appendChild(cell);
+  }
+}
+
+function handleCellClick(index) {
+  // If cell already filled or game over, return
+  if (gameState[index] !== '' || checkWinner()) return;
+  
+  // Update game state
+  gameState[index] = currentPlayer;
+  const cells = document.querySelectorAll('.tictactoe-cell');
+  cells[index].textContent = currentPlayer;
+  cells[index].style.color = currentPlayer === 'X' ? '#ff80a1' : '#cdb4db';
+  
+  // Check for winner or draw
+  if (checkWinner()) {
+    const winner = checkWinner();
+    if (winner === 'draw') {
+      document.getElementById('tictactoeStatus').textContent = "It's a draw!";
+      scores.draws++;
+    } else {
+      document.getElementById('tictactoeStatus').textContent = `Player ${winner} wins!`;
+      scores[winner]++;
+    }
+    updateScoreDisplay();
+    saveScores();
+    return;
+  }
+  
+  // Switch player
+  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+  document.getElementById('tictactoeStatus').textContent = `Player ${currentPlayer}'s turn`;
+}
+
+function checkWinner() {
+  const winPatterns = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+    [0, 4, 8], [2, 4, 6]             // diagonals
+  ];
+  
+  for (let pattern of winPatterns) {
+    const [a, b, c] = pattern;
+    if (gameState[a] && gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
+      return gameState[a]; // return 'X' or 'O'
+    }
+  }
+  
+  // Check for draw
+  if (!gameState.includes('')) return 'draw';
+  
+  return null; // no winner yet
+}
+
+function resetTictactoe() {
+  startTictactoe(); // Reinitialize the game
+}
+
+function updateScoreDisplay() {
+  document.getElementById('tictactoeScore').textContent = 
+    `Score - X: ${scores.X} | O: ${scores.O} | Draws: ${scores.draws}`;
+}
+
+function saveScores() {
+  localStorage.setItem('tictactoeScores', JSON.stringify(scores));
+}
+</script>
 </body>
 </html>
