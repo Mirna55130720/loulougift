@@ -64,107 +64,138 @@ button {
     font-family: inherit;
 }
 
-/* Individual button colors with pastel theme */
-.button-row:nth-child(4) button:nth-child(1) { /* Our Memories */
-    background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
-    color: #B8860B;
-}
-.button-row:nth-child(4) button:nth-child(1):hover {
-    background: linear-gradient(135deg, #FF91A4, #FF9FB3);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4);
-}
-
-.button-row:nth-child(4) button:nth-child(2) { /* Our Games */
-    background: linear-gradient(135deg, #E6E6FA, #DDA0DD);
-    color: #7B4397;
-}
-.button-row:nth-child(4) button:nth-child(2):hover {
-    background: linear-gradient(135deg, #D8D8F8, #D088D0);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+.button-row button {
+  padding: 10px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 6px;
 }
 
-.button-row:nth-child(4) button:nth-child(3) { /* Couple Quiz */
-    background: linear-gradient(135deg, #F0E68C, #FFE4B5);
-    color: #B8860B;
+.memories-btn {
+  background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+  color: #B8860B;
 }
-.button-row:nth-child(4) button:nth-child(3):hover {
-    background: linear-gradient(135deg, #EDE06B, #FFD700);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 228, 181, 0.4);
-}
-
-.button-row:nth-child(5) button:nth-child(1) { /* Puzzle */
-    background: linear-gradient(135deg, #98FB98, #90EE90);
-    color: #2E8B57;
-}
-.button-row:nth-child(5) button:nth-child(1):hover {
-    background: linear-gradient(135deg, #87F087, #7FDD7F);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(152, 251, 152, 0.4);
+.memories-btn:hover {
+  background: linear-gradient(135deg, #FF91A4, #FF9FB3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4);
 }
 
-.button-row:nth-child(5) button:nth-child(2) { /* Why I Love You */
-    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
-    color: #8B1A4A;
+.games-btn {
+  background: linear-gradient(135deg, #E6E6FA, #DDA0DD);
+  color: #7B4397;
 }
-.button-row:nth-child(5) button:nth-child(2):hover {
-    background: linear-gradient(135deg, #FF91A4, #FF1493);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
-}
-
-.button-row:nth-child(5) button:nth-child(3) { /* Calendar */
-    background: linear-gradient(135deg, #B19CD9, #C8A2C8);
-    color: #4A4A4A;
-}
-.button-row:nth-child(5) button:nth-child(3):hover {
-    background: linear-gradient(135deg, #A88BC7, #B896B8);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(177, 156, 217, 0.4);
+.games-btn:hover {
+  background: linear-gradient(135deg, #D8D8F8, #D088D0);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
 }
 
-/* Game buttons styling */
-.button-row:nth-child(6) button:nth-child(1) { /* Snake Game */
-    background: linear-gradient(135deg, #B2E6D4, #98E4D6);
-    color: #2E8B57;
+.quiz-btn {
+  background: linear-gradient(135deg, #F0E68C, #FFE4B5);
+  color: #B8860B;
 }
-.button-row:nth-child(6) button:nth-child(1):hover {
-    background: linear-gradient(135deg, #FFD1A1, #FFDD98);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(178, 230, 212, 0.4);
-}
-
-.button-row:nth-child(6) button:nth-child(2) { /* Hamster Runner */
-    background: linear-gradient(135deg, #FFDAB9, #FFE4B5);
-    color: #CD853F;
-}
-.button-row:nth-child(6) button:nth-child(2):hover {
-    background: linear-gradient(135deg, #FFD1A1, #FFDD98);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 218, 185, 0.4);
+.quiz-btn:hover {
+  background: linear-gradient(135deg, #EDE06B, #FFD700);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 228, 181, 0.4);
 }
 
-.button-row:nth-child(6) button:nth-child(3) { /* Heart Catcher */
-    background: linear-gradient(135deg, #FFC0CB, #FFB6C1);
-    color: #C71585;
+.snake-btn {
+  background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+  color: #8B1A4A;
 }
-.button-row:nth-child(6) button:nth-child(3):hover {
-    background: linear-gradient(135deg, #FF9FB3, #FF91A4);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 192, 203, 0.4);
+.snake-btn:hover {
+  background: linear-gradient(135deg, #FF91A4, #FF1493);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
 }
 
-.button-row:nth-child(7) button:nth-child(1) { /* Memory Game */
-    background: linear-gradient(135deg, #DDA0DD, #DA70D6);
-    color: #8B008B;
+.puzzle-btn {
+  background: linear-gradient(135deg, #98FB98, #90EE90);
+  color: #2E8B57;
 }
-.button-row:nth-child(7) button:nth-child(1):hover {
-    background: linear-gradient(135deg, #D088D0, #D055D0);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+.puzzle-btn:hover {
+  background: linear-gradient(135deg, #87F087, #7FDD7F);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(152, 251, 152, 0.4);
 }
+
+.hamster-btn {
+  background: linear-gradient(135deg, #FFDAB9, #FFE4B5);
+  color: #CD853F;
+}
+.hamster-btn:hover {
+  background: linear-gradient(135deg, #FFD1A1, #FFDD98);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 218, 185, 0.4);
+}
+
+.love-btn {
+  background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+  color: #8B1A4A;
+}
+.love-btn:hover {
+  background: linear-gradient(135deg, #FF91A4, #FF1493);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+}
+
+.calendar-btn {
+  background: linear-gradient(135deg, #B19CD9, #C8A2C8);
+  color: #4A4A4A;
+}
+.calendar-btn:hover {
+  background: linear-gradient(135deg, #A88BC7, #B896B8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(177, 156, 217, 0.4);
+}
+
+.memory-btn {
+  background: linear-gradient(135deg, #DDA0DD, #DA70D6);
+  color: #8B008B;
+}
+.memory-btn:hover {
+  background: linear-gradient(135deg, #D088D0, #D055D0);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+.heart-btn {
+  background: linear-gradient(135deg, #FFC0CB, #FFB6C1);
+  color: #C71585;
+}
+.heart-btn:hover {
+  background: linear-gradient(135deg, #FF9FB3, #FF91A4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 192, 203, 0.4);
+}
+
+.tictactoe-btn {
+  background: linear-gradient(135deg, #ADD8E6, #B0E0E6);
+  color: #2F4F4F;
+}
+.tictactoe-btn:hover {
+  background: linear-gradient(135deg, #A0D0E0, #90C8D0);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(173, 216, 230, 0.4);
+}
+
+.tetris-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #8B4513;
+}
+.tetris-btn:hover {
+  background: linear-gradient(135deg, #FFCC00, #FF9900);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 165, 0, 0.4);
+}
+
+
 
 /* Center buttons in other sections */
 .section button:not(.button-row button) {
@@ -579,29 +610,30 @@ button:hover::before {
   </div>
   <p style="margin: 5px 0 10px 0;">Pick a door to open...</p>
   
-  <!-- First row of buttons -->
-  <div class="button-row">
-    <button onclick="showSection('memories')">📸 Our Memories</button>
-    <button onclick="showSection('games')">🎮 Our Games</button>
-    <button onclick="showSection('quiz')">❓ Couple Quiz</button>
- <button onclick="startSnake()">🐍 Snake Game</button>
-  </div>
-  
-  <!-- Second row of buttons -->
-  <div class="button-row">
-    <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
-  <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
-    <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
-    <button onclick="showSection('calendar')">📅 Our Calendar</button>
-  </div>
- 
-  <!-- Fourth row with one button centered -->
-  <div class="button-row">
-    <button onclick="startMemoryGame()">🧠 Memory Game</button>
- <button onclick="startHeartCatcher()">💖 Heart Catcher</button>
-  <button onclick="startTictactoe()">Play ❌⭕</button>
-<button onclick="showSection('tetris')">🎮 Tetris</button>
-  </div>
+<!-- First row of buttons -->
+<div class="button-row">
+  <button class="memories-btn" onclick="showSection('memories')">📸 Our Memories</button>
+  <button class="games-btn" onclick="showSection('games')">🎮 Our Games</button>
+  <button class="quiz-btn" onclick="showSection('quiz')">❓ Couple Quiz</button>
+  <button class="snake-btn" onclick="startSnake()">🐍 Snake Game</button>
+</div>
+
+<!-- Second row of buttons -->
+<div class="button-row">
+  <button class="puzzle-btn" onclick="showSection('puzzle')">🧩 Puzzle</button>
+  <button class="hamster-btn" onclick="startHamsterGame()">🐹 Hamster Runner</button>
+  <button class="love-btn" onclick="showSection('loveReasons')">💖 Why I Love You</button>
+  <button class="calendar-btn" onclick="showSection('calendar')">📅 Our Calendar</button>
+</div>
+
+<!-- Third row of buttons -->
+<div class="button-row">
+  <button class="memory-btn" onclick="startMemoryGame()">🧠 Memory Game</button>
+  <button class="heart-btn" onclick="startHeartCatcher()">💖 Heart Catcher</button>
+  <button class="tictactoe-btn" onclick="startTictactoe()">Play ❌⭕</button>
+  <button class="tetris-btn" onclick="showSection('tetris')">🎮 Tetris</button>
+</div>
+
   
   <div class="cake-text" style="font-size:20px;color:#e26ba9;font-weight:bold;margin-top:10px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 </div>
