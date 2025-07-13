@@ -957,13 +957,27 @@ function drawSnake() {
 }
 
 function changeDirection(e) {
-  if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -15; }
-  else if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 15; }
-  else if (e.key === "ArrowLeft" && dx === 0) { dx = -15; dy = 0; }
-  else if (e.key === "ArrowRight" && dx === 0) { dx = 15; dy = 0; }
-}
-
-function placeFood() {
+  if (e.key === "ArrowUp" && dy === 0) { 
+    e.preventDefault();
+    dx = 0; 
+    dy = -15; 
+  }
+  else if (e.key === "ArrowDown" && dy === 0) { 
+    e.preventDefault();
+    dx = 0; 
+    dy = 15; 
+  }
+  else if (e.key === "ArrowLeft" && dx === 0) { 
+    e.preventDefault();
+    dx = -15; 
+    dy = 0; 
+  }
+  else if (e.key === "ArrowRight" && dx === 0) { 
+    e.preventDefault();
+    dx = 15; 
+    dy = 0; 
+  }
+}function placeFood() {
   const x = Math.floor(Math.random() * 20) * 15;
   const y = Math.floor(Math.random() * 20) * 15;
   food = {x, y};
