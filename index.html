@@ -23,15 +23,235 @@
     .pink{fill:#f9c0d8} .purple{fill:#d6a4e0} .lightpink{fill:#ffd1dc} .lavender{fill:#cdb4db}
     @keyframes floatUp{0%{transform:translateX(0) translateY(0);opacity:.8}50%{transform:translateX(15px) translateY(-50vh);opacity:.6}100%{transform:translateX(-15px) translateY(-100vh);opacity:0}}
 
-    /* Sections */
-    .section { display:none; position:relative; z-index:1; }
-    .active  { display:block; }
-    h1,h2{ color:#e26ba9; position:relative; z-index:1; }
-    button{ background:#e26ba9; color:#fff; border:none; padding:12px 25px; font-size:16px; cursor:pointer; border-radius:10px; margin-top:20px; opacity:0; animation:fadeIn 1s ease-in .2s forwards; transition:background .3s; position:relative; z-index:1; }
-    button:hover{background:#c3588f}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    .typewriter{ font-size:18px; line-height:1.5; white-space:pre-wrap; min-height:100px; }
+/* Sections */
+.section { display:none; position:relative; z-index:1; }
+.active  { display:block; }
+h1,h2{ color:#e26ba9; position:relative; z-index:1; }
 
+/* Button row layout */
+.button-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+    flex-wrap: wrap;
+}
+
+/* Updated Button Styling */
+button { 
+    border: none; 
+    padding: 15px; 
+    font-size: 14px; 
+    font-weight: 600;
+    cursor: pointer; 
+    border-radius: 15px; 
+    margin: 0;
+    opacity: 0; 
+    animation: fadeIn 1s ease-in .2s forwards; 
+    transition: all 0.3s ease;
+    position: relative; 
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-shadow: none;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    font-family: inherit;
+}
+
+/* Individual button colors with pastel theme */
+.button-row:nth-child(4) button:nth-child(1) { /* Our Memories */
+    background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+    color: #B8860B;
+}
+.button-row:nth-child(4) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #FF91A4, #FF9FB3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 182, 193, 0.4);
+}
+
+.button-row:nth-child(4) button:nth-child(2) { /* Our Games */
+    background: linear-gradient(135deg, #E6E6FA, #DDA0DD);
+    color: #7B4397;
+}
+.button-row:nth-child(4) button:nth-child(2):hover {
+    background: linear-gradient(135deg, #D8D8F8, #D088D0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+.button-row:nth-child(4) button:nth-child(3) { /* Couple Quiz */
+    background: linear-gradient(135deg, #F0E68C, #FFE4B5);
+    color: #B8860B;
+}
+.button-row:nth-child(4) button:nth-child(3):hover {
+    background: linear-gradient(135deg, #EDE06B, #FFD700);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 228, 181, 0.4);
+}
+
+.button-row:nth-child(5) button:nth-child(1) { /* Puzzle */
+    background: linear-gradient(135deg, #98FB98, #90EE90);
+    color: #2E8B57;
+}
+.button-row:nth-child(5) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #87F087, #7FDD7F);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(152, 251, 152, 0.4);
+}
+
+.button-row:nth-child(5) button:nth-child(2) { /* Why I Love You */
+    background: linear-gradient(135deg, #FFB6C1, #FF69B4);
+    color: #8B1A4A;
+}
+.button-row:nth-child(5) button:nth-child(2):hover {
+    background: linear-gradient(135deg, #FF91A4, #FF1493);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+}
+
+.button-row:nth-child(5) button:nth-child(3) { /* Calendar */
+    background: linear-gradient(135deg, #B19CD9, #C8A2C8);
+    color: #4A4A4A;
+}
+.button-row:nth-child(5) button:nth-child(3):hover {
+    background: linear-gradient(135deg, #A88BC7, #B896B8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(177, 156, 217, 0.4);
+}
+
+/* Game buttons styling */
+.button-row:nth-child(6) button:nth-child(1) { /* Snake Game */
+    background: linear-gradient(135deg, #B2E6D4, #98E4D6);
+    color: #2E8B57;
+}
+.button-row:nth-child(6) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #FFD1A1, #FFDD98);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(178, 230, 212, 0.4);
+}
+
+.button-row:nth-child(6) button:nth-child(2) { /* Hamster Runner */
+    background: linear-gradient(135deg, #FFDAB9, #FFE4B5);
+    color: #CD853F;
+}
+.button-row:nth-child(6) button:nth-child(2):hover {
+    background: linear-gradient(135deg, #FFD1A1, #FFDD98);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 218, 185, 0.4);
+}
+
+.button-row:nth-child(6) button:nth-child(3) { /* Heart Catcher */
+    background: linear-gradient(135deg, #FFC0CB, #FFB6C1);
+    color: #C71585;
+}
+.button-row:nth-child(6) button:nth-child(3):hover {
+    background: linear-gradient(135deg, #FF9FB3, #FF91A4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 192, 203, 0.4);
+}
+
+.button-row:nth-child(7) button:nth-child(1) { /* Memory Game */
+    background: linear-gradient(135deg, #DDA0DD, #DA70D6);
+    color: #8B008B;
+}
+.button-row:nth-child(7) button:nth-child(1):hover {
+    background: linear-gradient(135deg, #D088D0, #D055D0);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+/* Center buttons in other sections */
+.section button:not(.button-row button) {
+    display: block;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #F8BBD9, #F4A6CD);
+    color: #8B4B87;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-width: 120px;
+    height: auto;
+    line-height: 1.4;
+    width: auto;
+}
+
+.section button:not(.button-row button):hover {
+    background: linear-gradient(135deg, #F5A9CB, #F191C1);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(248, 187, 217, 0.4);
+}
+
+.section button:not(.button-row button):active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Back button specific styling */
+.section button[onclick*="showSection('main')"] {
+    background: linear-gradient(135deg, #E6E6FA, #DDA0DD) !important;
+    color: #7B4397 !important;
+}
+
+.section button[onclick*="showSection('main')"]:hover {
+    background: linear-gradient(135deg, #D8D8F8, #D088D0) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(221, 160, 221, 0.4);
+}
+
+/* Quiz/Game specific buttons */
+.section button[onclick*="nextQuestion"], 
+.section button[onclick*="startGame"],
+.section button[onclick*="restartGame"] {
+    background: linear-gradient(135deg, #98FB98, #90EE90) !important;
+    color: #2E8B57 !important;
+}
+
+.section button[onclick*="nextQuestion"]:hover,
+.section button[onclick*="startGame"]:hover,
+.section button[onclick*="restartGame"]:hover {
+    background: linear-gradient(135deg, #87F087, #7FDD7F) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(152, 251, 152, 0.4);
+}
+
+/* Active/pressed state for all buttons */
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Add cute emoji effects */
+button::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border-radius: 18px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+button:hover::before {
+    opacity: 1;
+}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.typewriter{ font-size:18px; line-height:1.5; white-space:pre-wrap; min-height:100px; }
     /* Gallery & Flip‑card */
     .gallery{ display:flex; flex-wrap:wrap; justify-content:center; gap:20px; max-width:900px; margin:0 auto; }
     .flip-card{ background:transparent; width:180px; height:240px; perspective:1000px; cursor:pointer; }
@@ -325,27 +545,36 @@
 
 <!-- Main menu -->
 <div id="menu" class="section">
-  <h2>Welcome to Our Little World 💞</h2>
-  <div class="cake-container">
-    <img src="happy_birthday.gif" alt="Cake with candles" style="width:160px;height:auto;filter:drop-shadow(0 0 5px #e26ba9)" />
+  <h2 style="margin-bottom: 10px;">Welcome to Our Little World 💞</h2>
+  <div class="cake-container" style="margin-bottom: 8px;">
+    <img src="happy_birthday.gif" alt="Cake with candles" style="width:120px;height:auto;filter:drop-shadow(0 0 5px #e26ba9)" />
   </div>
-  <p>Pick a door to open...</p>
-  <button onclick="showSection('memories')">📸 Our Memories</button>
-  <button onclick="showSection('games')">🎮 Our Games</button>
-  <button onclick="showSection('quiz')">❓ Couple Quiz</button>
-  <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
-  <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
+  <p style="margin: 5px 0 10px 0;">Pick a door to open...</p>
   
-  <div style="margin-top:10px;">
-    <button onclick="startSnake()">🐍 Snake Game</button>
-    <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
-    <button onclick="startHeartCatcher()">💖 Heart Catcher</button>
-    <button onclick="startMemoryGame()">🧠 Memory Game</button>
+  <!-- First row of buttons -->
+  <div class="button-row">
+    <button onclick="showSection('memories')">📸 Our Memories</button>
+    <button onclick="showSection('games')">🎮 Our Games</button>
+    <button onclick="showSection('quiz')">❓ Couple Quiz</button>
+ <button onclick="startSnake()">🐍 Snake Game</button>
   </div>
- <button onclick="showSection('calendar')">📅 Our Calendar</button>
-  <div class="cake-text" style="font-size:22px;color:#e26ba9;font-weight:bold;margin-top:15px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
+  
+  <!-- Second row of buttons -->
+  <div class="button-row">
+    <button id="puzzleBtn" onclick="showSection('puzzle')">🧩 Puzzle</button>
+  <button onclick="startHamsterGame()">🐹 Hamster Runner</button>
+    <button onclick="showSection('loveReasons')">💖 Why I Love You</button>
+    <button onclick="showSection('calendar')">📅 Our Calendar</button>
+  </div>
+ 
+  <!-- Fourth row with one button centered -->
+  <div class="button-row">
+    <button onclick="startMemoryGame()">🧠 Memory Game</button>
+ <button onclick="startHeartCatcher()">💖 Heart Catcher</button>
+  </div>
+  
+  <div class="cake-text" style="font-size:20px;color:#e26ba9;font-weight:bold;margin-top:10px;text-shadow:1px 1px 2px #ffc0dc;">Happy Birthday Baby 🎂</div>
 </div>
-
 <!-- 📸 Memories Section -->
 <div id="memories" class="section">
   <h2>You've always been with me 💖</h2>
@@ -1188,6 +1417,7 @@ function restartMemoryGame() {
 let currentDate = new Date();
 let selectedDate = null;
 let events = [];
+let editingEventId = null; // Track which event we're editing
 
 // Calendar configuration
 const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -1212,6 +1442,7 @@ function loadEvents() {
     const savedEvents = localStorage.getItem('coupleCalendarEvents');
     if (savedEvents) {
       events = JSON.parse(savedEvents);
+      console.log('Loaded events from localStorage:', events);
     } else {
       // Add sample events if this is the first time
       const today = new Date();
@@ -1237,6 +1468,7 @@ function loadEvents() {
         }
       ];
       saveEvents();
+      console.log('Created sample events and saved to localStorage');
     }
   } catch (error) {
     console.error('Error loading events:', error);
@@ -1248,6 +1480,7 @@ function loadEvents() {
 function saveEvents() {
   try {
     localStorage.setItem('coupleCalendarEvents', JSON.stringify(events));
+    console.log('Events saved to localStorage:', events);
     return true;
   } catch (error) {
     console.error('Error saving events:', error);
@@ -1331,11 +1564,18 @@ function renderCalendar() {
       const eventElement = document.createElement('div');
       eventElement.className = 'event-item';
       eventElement.textContent = event.title;
-      eventElement.title = `${event.time} - ${event.title}`;
+      eventElement.title = `${event.time} - ${event.title}\nClick to edit or delete`;
+      
+      // Add click event to show event options
+      eventElement.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent day selection
+        showEventOptions(event.id);
+      });
+      
       dayElement.appendChild(eventElement);
     });
     
-    // Add click event to select date
+    // Add click event to select date (only if not clicking on an event)
     dayElement.addEventListener('click', () => {
       selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
       renderCalendar();
@@ -1362,6 +1602,8 @@ function updateTodayEvents() {
   const todayEvents = events.filter(event => event.date === todayStr);
   
   const todayEventsList = document.getElementById('today-events-list');
+  if (!todayEventsList) return;
+  
   todayEventsList.innerHTML = '';
   
   if (todayEvents.length === 0) {
@@ -1377,16 +1619,65 @@ function updateTodayEvents() {
       <p><strong>Time:</strong> ${event.time}</p>
       ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
       ${event.location ? `<p><strong>Location:</strong> ${event.location}</p>` : ''}
+      <button class="edit-event" onclick="editEvent(${event.id})">Edit</button>
       <button class="delete-event" onclick="deleteEvent(${event.id})">Delete</button>
     `;
     todayEventsList.appendChild(eventElement);
   });
 }
 
+// Edit event
+function editEvent(eventId) {
+  const event = events.find(e => e.id === eventId);
+  if (!event) {
+    console.error('Event not found for editing:', eventId);
+    return;
+  }
+  
+  console.log('Editing event:', event);
+  editingEventId = eventId;
+  
+  // Fill form with existing event data
+  document.getElementById('event-title').value = event.title;
+  document.getElementById('event-datetime').value = event.date + 'T' + event.time;
+  document.getElementById('event-description').value = event.description || '';
+  document.getElementById('event-location').value = event.location || '';
+  
+  // Update form title and button text
+  const formTitle = document.querySelector('#event-form h3');
+  if (formTitle) {
+    formTitle.textContent = 'Edit Event';
+  }
+  
+  const saveButton = document.querySelector('#event-form button[onclick="saveEvent()"]');
+  if (saveButton) {
+    saveButton.textContent = 'Update Event';
+  }
+  
+  // Show the form
+  document.getElementById('event-form').style.display = 'block';
+  
+  console.log('Form populated with event data, editingEventId set to:', editingEventId);
+}
+
 // Show event form
 function showEventForm() {
   const eventForm = document.getElementById('event-form');
   const eventDateTime = document.getElementById('event-datetime');
+  
+  // Reset editing state
+  editingEventId = null;
+  
+  // Update form title and button text
+  const formTitle = document.querySelector('#event-form h3');
+  if (formTitle) {
+    formTitle.textContent = 'Add New Event';
+  }
+  
+  const saveButton = document.querySelector('#event-form button[onclick="saveEvent()"]');
+  if (saveButton) {
+    saveButton.textContent = 'Save Event';
+  }
   
   if (selectedDate) {
     // Set default date to selected date
@@ -1404,6 +1695,97 @@ function cancelEvent() {
   document.getElementById('event-datetime').value = '';
   document.getElementById('event-description').value = '';
   document.getElementById('event-location').value = '';
+  editingEventId = null;
+  
+  console.log('Form cancelled, editingEventId reset');
+  
+  // Reset form title and button text
+  const formTitle = document.querySelector('#event-form h3');
+  if (formTitle) {
+    formTitle.textContent = 'Add New Event';
+  }
+  
+  const saveButton = document.querySelector('#event-form button[onclick="saveEvent()"]');
+  if (saveButton) {
+    saveButton.textContent = 'Save Event';
+  }
+}
+
+// Show event options (for events clicked in calendar grid)
+function showEventOptions(eventId) {
+  const event = events.find(e => e.id === eventId);
+  if (!event) return;
+  
+  // Create modal overlay
+  const modal = document.createElement('div');
+  modal.className = 'event-modal-overlay';
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  `;
+  
+  // Create modal content
+  const modalContent = document.createElement('div');
+  modalContent.className = 'event-modal-content';
+  modalContent.style.cssText = `
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  `;
+  
+  modalContent.innerHTML = `
+    <h3>${event.title}</h3>
+    <p><strong>Date:</strong> ${event.date}</p>
+    <p><strong>Time:</strong> ${event.time}</p>
+    ${event.description ? `<p><strong>Description:</strong> ${event.description}</p>` : ''}
+    ${event.location ? `<p><strong>Location:</strong> ${event.location}</p>` : ''}
+    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+      <button onclick="editEventFromModal(${event.id})" style="background: #4CAF50; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Edit</button>
+      <button onclick="deleteEventFromModal(${event.id})" style="background: #f44336; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Delete</button>
+      <button onclick="closeEventModal()" style="background: #ccc; color: black; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer;">Close</button>
+    </div>
+  `;
+  
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+  
+  // Close modal when clicking outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeEventModal();
+    }
+  });
+}
+
+// Close event modal
+function closeEventModal() {
+  const modal = document.querySelector('.event-modal-overlay');
+  if (modal) {
+    modal.remove();
+  }
+}
+
+// Edit event from modal
+function editEventFromModal(eventId) {
+  closeEventModal();
+  editEvent(eventId);
+}
+
+// Delete event from modal
+function deleteEventFromModal(eventId) {
+  closeEventModal();
+  deleteEvent(eventId);
 }
 
 // Delete event
@@ -1437,8 +1819,7 @@ window.saveEvent = function() {
   }
   
   const eventDate = new Date(datetime);
-  const newEvent = {
-    id: Date.now(),
+  const eventData = {
     title: title,
     date: eventDate.toISOString().split('T')[0],
     time: eventDate.toTimeString().slice(0, 5),
@@ -1446,8 +1827,35 @@ window.saveEvent = function() {
     location: document.getElementById('event-location').value.trim()
   };
   
-  events.push(newEvent);
+  if (editingEventId) {
+    // Update existing event
+    console.log('Updating event with ID:', editingEventId);
+    const eventIndex = events.findIndex(e => e.id === editingEventId);
+    if (eventIndex !== -1) {
+      // Keep the original ID and update all other fields
+      events[eventIndex] = { 
+        id: editingEventId,
+        ...eventData
+      };
+      console.log('Updated event:', events[eventIndex]);
+    } else {
+      console.error('Event not found for editing');
+      alert('Error: Event not found for editing.');
+      return;
+    }
+  } else {
+    // Create new event
+    const newEvent = {
+      id: Date.now(),
+      ...eventData
+    };
+    events.push(newEvent);
+    console.log('Created new event:', newEvent);
+  }
+  
+  // Save to localStorage and update display
   if (saveEvents()) {
+    console.log('Events saved successfully');
     renderCalendar();
     updateTodayEvents();
     cancelEvent();
@@ -1458,23 +1866,17 @@ window.saveEvent = function() {
 
 window.cancelEvent = cancelEvent;
 window.deleteEvent = deleteEvent;
+window.editEvent = editEvent;
+window.showEventOptions = showEventOptions;
+window.closeEventModal = closeEventModal;
+window.editEventFromModal = editEventFromModal;
+window.deleteEventFromModal = deleteEventFromModal;
 
 // Initialize calendar when calendar section is shown
-document.querySelector("button[onclick=\"showSection('calendar')\"]")
-  .addEventListener('click', initCalendar);
+const calendarButton = document.querySelector("button[onclick=\"showSection('calendar')\"]");
+if (calendarButton) {
+  calendarButton.addEventListener('click', initCalendar);
+}
 </script>
-<!-- 💘 Love Reasons Section -->
-<div id="loveReasons" class="section">
-  <h2>Why I Love You 💖</h2>
-  <div class="love-generator">
-    <div id="reasonDisplay" class="reason-box" style="font-size:20px;color:#e26ba9;font-weight:bold;margin:25px auto;max-width:500px;min-height:60px;">
-      Click the button to see a reason...
-    </div>
-    <button onclick="showLoveReason()">Tell Me 💘</button>
-  </div>
-  <br />
-  <button onclick="showSection('menu')">← Back</button>
-</div>
-
 </body>
 </html>
